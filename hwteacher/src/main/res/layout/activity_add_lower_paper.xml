@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:background="@color/gray_backgroud"
+              android:orientation="vertical">
+    <RelativeLayout
+        android:id="@+id/relativelayout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white">
+
+        <ImageView
+            android:id="@+id/back"
+            android:layout_width="12dp"
+            android:layout_height="20dp"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/arrow_left"/>
+
+        <TextView
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="添加下级目录"
+            android:textColor="@color/black"
+            android:textSize="18sp"/>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/name"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/white"
+        android:drawableLeft="@mipmap/work_ic_paper"
+        android:paddingLeft="18dp"
+        android:paddingRight="18dp"
+        tools:text="八年级物理第一次月考试卷"
+        android:layout_marginTop="8dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/black"
+        android:textSize="18dp"
+        android:drawablePadding="18dp"
+        android:drawableRight="@mipmap/work_ic_edit"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/edit_parper_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:divider="#aaa"
+        android:dividerHeight="1px"/>
+
+    <TextView
+        android:id="@+id/add_peer_catalog"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="添加下级目录"
+        android:layout_marginTop="12dp"
+        android:textSize="16sp"
+        android:textColor="@color/contact_tab_select2"
+        android:drawableLeft="@mipmap/add_ic_add2"
+        android:layout_gravity="center_horizontal"
+        android:gravity="center_vertical"/>
+</LinearLayout>

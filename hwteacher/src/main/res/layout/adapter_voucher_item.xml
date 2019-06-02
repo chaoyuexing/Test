@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:gravity="center_vertical" >
+
+    <TextView
+        android:id="@+id/voucherTv"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_marginLeft="10dp"
+        android:background="@drawable/voucher"
+        android:gravity="center_vertical"
+        android:paddingLeft="50dp"
+        android:text="3元"
+        android:textColor="@color/white"
+        android:textSize="16sp" />
+
+</LinearLayout>

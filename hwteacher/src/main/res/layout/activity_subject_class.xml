@@ -1,0 +1,109 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include layout="@layout/include_head" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="加入行政班级"
+        android:textColor="@color/black"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="学科(请选择)"
+        android:textColor="#9896a0"
+        android:textSize="14sp" />
+
+    <GridView
+        android:id="@+id/subjectGridView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:columnWidth="80dp"
+        android:horizontalSpacing="5dp"
+        android:listSelector="#00000000"
+        android:numColumns="4"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:stretchMode="none"
+        android:verticalSpacing="5dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="年级(请选择)"
+        android:textColor="#9896a0"
+        android:textSize="14sp" />
+
+    <GridView
+        android:id="@+id/gradeGridView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:columnWidth="80dp"
+        android:horizontalSpacing="5dp"
+        android:listSelector="#00000000"
+        android:numColumns="4"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:stretchMode="none"
+        android:verticalSpacing="5dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:text="班级(可多选)"
+        android:textColor="#9896a0"
+        android:textSize="14sp" />
+
+    <GridView
+        android:id="@+id/classGridView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:columnWidth="80dp"
+        android:horizontalSpacing="5dp"
+        android:listSelector="#00000000"
+        android:numColumns="4"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:stretchMode="none"
+        android:verticalSpacing="5dp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="20dp"
+        android:gravity="bottom">
+
+        <Button
+            android:id="@+id/okBtn"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/login_btn"
+            android:gravity="center"
+            android:text="完成"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</LinearLayout>

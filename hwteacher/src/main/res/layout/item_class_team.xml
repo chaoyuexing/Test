@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content">
+    <CheckBox
+        android:id="@+id/cb_prepare_lessons"
+        android:button="@drawable/checkbox_style"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:focusable="false"
+        android:clickable="false"
+        android:text="11111111111111111111111"/>
+
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginLeft="44dp"
+        android:background="@color/white_gray" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="44dp"
+        android:layout_marginRight="18dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="选择时间"
+            android:textSize="18sp"
+            android:textColor="@color/black"/>
+
+        <TextView
+            android:id="@+id/start_time"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:layout_weight="2"
+            android:gravity="right"
+            android:text="开始时间"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:text="~"/>
+
+        <TextView
+            android:id="@+id/over_time"
+            android:text="结束时间"
+            android:layout_marginLeft="2dp"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:drawableRight="@drawable/arrow_right"
+            android:layout_height="wrap_content"/>
+    </LinearLayout>
+</LinearLayout>

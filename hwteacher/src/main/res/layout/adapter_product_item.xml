@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="120dp" >
+
+    <ImageView
+        android:id="@+id/productIv"
+        android:layout_width="70dp"
+        android:layout_height="80dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="10dp"
+        android:src="@drawable/product_pic_icon" />
+
+    <RelativeLayout
+        android:id="@+id/productInfoRl"
+        android:layout_width="160dp"
+        android:layout_height="match_parent"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="20dp"
+        android:layout_toRightOf="@id/productIv" >
+
+        <TextView
+            android:id="@+id/productNameTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginBottom="5dp"
+            android:text="湖南小炒肉"
+            android:textColor="@color/black"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/productSellNumTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_below="@id/productNameTv"
+            android:text="月销 1020"
+            android:textColor="@color/gray_normal"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/productFavRateTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/productNameTv"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@id/productSellNumTv"
+            android:text="好评率 99.6%"
+            android:textColor="@color/gray_normal"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/productPriceTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:text="￥8.0"
+            android:textColor="@color/red"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="50dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="10dp" >
+
+        <TextView
+            android:id="@+id/addToCookBookTv"
+            android:layout_width="40dp"
+            android:layout_height="54dp"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/add_cookbook_already" />
+
+        <TextView
+            android:id="@+id/addToProductCarTv"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/increase_productcar" />
+    </RelativeLayout>
+
+</RelativeLayout>

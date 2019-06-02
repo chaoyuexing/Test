@@ -1,0 +1,168 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Manifest Merging:
+-----------------
+Your project uses libraries that provide manifests, and your Eclipse
+project did not explicitly turn on manifest merging. In Android Gradle
+projects, manifests are always merged (meaning that contents from your
+libraries' manifests will be merged into the app manifest. If you had
+manually copied contents from library manifests into your app manifest
+you may need to remove these for the app to build correctly.
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+From InitActivity:
+* README.md
+* build.gradle
+* proguard-project.txt
+From PubUtils:
+* build.gradle
+From Vsichu:
+* ic_launcher-web.png
+* proguard-project.txt
+From pulltorefreshLib:
+* LICENSE
+* build.gradle
+* pom.xml
+
+Replaced Jars with Dependencies:
+--------------------------------
+The importer recognized the following .jar files as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the .jar file in your project was of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the jar replacement in the import wizard and try again:
+
+android-support-v4.jar => com.android.support:support-v4:22.2.1
+android-support-v7-appcompat.jar => com.android.support:appcompat-v7:22.2.1
+
+Replaced Libraries with Dependencies:
+-------------------------------------
+The importer recognized the following library projects as third party
+libraries and replaced them with Gradle dependencies instead. This has
+the advantage that more explicit version information is known, and the
+libraries can be updated automatically. However, it is possible that
+the source files in your project were of an older version than the
+dependency we picked, which could render the project not compileable.
+You can disable the library replacement in the import wizard and try
+again:
+
+android-support-v7-appcompat => [com.android.support:appcompat-v7:22.2.1]
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+In InitActivity:
+* AndroidManifest.xml => initActivity\src\main\AndroidManifest.xml
+* assets\ => initActivity\src\main\assets
+* libs\arm64-v8a\libffmpeg.so => initActivity\src\main\jniLibs\arm64-v8a\libffmpeg.so
+* libs\arm64-v8a\libOMX.24.so => initActivity\src\main\jniLibs\arm64-v8a\libOMX.24.so
+* libs\arm64-v8a\libstlport_shared.so => initActivity\src\main\jniLibs\arm64-v8a\libstlport_shared.so
+* libs\arm64-v8a\libvao.0.so => initActivity\src\main\jniLibs\arm64-v8a\libvao.0.so
+* libs\arm64-v8a\libvinit.so => initActivity\src\main\jniLibs\arm64-v8a\libvinit.so
+* libs\arm64-v8a\libvplayer.so => initActivity\src\main\jniLibs\arm64-v8a\libvplayer.so
+* libs\arm64-v8a\libvscanner.so => initActivity\src\main\jniLibs\arm64-v8a\libvscanner.so
+* libs\arm64-v8a\libvvo.0.so => initActivity\src\main\jniLibs\arm64-v8a\libvvo.0.so
+* libs\arm64-v8a\libvvo.9.so => initActivity\src\main\jniLibs\arm64-v8a\libvvo.9.so
+* libs\arm64-v8a\libvvo.j.so => initActivity\src\main\jniLibs\arm64-v8a\libvvo.j.so
+* libs\armeabi-v7a\libffmpeg.so => initActivity\src\main\jniLibs\armeabi-v7a\libffmpeg.so
+* libs\armeabi-v7a\libOMX.11.so => initActivity\src\main\jniLibs\armeabi-v7a\libOMX.11.so
+* libs\armeabi-v7a\libOMX.14.so => initActivity\src\main\jniLibs\armeabi-v7a\libOMX.14.so
+* libs\armeabi-v7a\libOMX.18.so => initActivity\src\main\jniLibs\armeabi-v7a\libOMX.18.so
+* libs\armeabi-v7a\libOMX.9.so => initActivity\src\main\jniLibs\armeabi-v7a\libOMX.9.so
+* libs\armeabi-v7a\libstlport_shared.so => initActivity\src\main\jniLibs\armeabi-v7a\libstlport_shared.so
+* libs\armeabi-v7a\libvao.0.so => initActivity\src\main\jniLibs\armeabi-v7a\libvao.0.so
+* libs\armeabi-v7a\libvplayer.so => initActivity\src\main\jniLibs\armeabi-v7a\libvplayer.so
+* libs\armeabi-v7a\libvscanner.so => initActivity\src\main\jniLibs\armeabi-v7a\libvscanner.so
+* libs\armeabi-v7a\libvvo.0.so => initActivity\src\main\jniLibs\armeabi-v7a\libvvo.0.so
+* libs\armeabi-v7a\libvvo.7.so => initActivity\src\main\jniLibs\armeabi-v7a\libvvo.7.so
+* libs\armeabi-v7a\libvvo.8.so => initActivity\src\main\jniLibs\armeabi-v7a\libvvo.8.so
+* libs\armeabi-v7a\libvvo.9.so => initActivity\src\main\jniLibs\armeabi-v7a\libvvo.9.so
+* libs\armeabi-v7a\libvvo.j.so => initActivity\src\main\jniLibs\armeabi-v7a\libvvo.j.so
+* libs\x86\libffmpeg.so => initActivity\src\main\jniLibs\x86\libffmpeg.so
+* libs\x86\libOMX.14.so => initActivity\src\main\jniLibs\x86\libOMX.14.so
+* libs\x86\libOMX.18.so => initActivity\src\main\jniLibs\x86\libOMX.18.so
+* libs\x86\libOMX.9.so => initActivity\src\main\jniLibs\x86\libOMX.9.so
+* libs\x86\libstlport_shared.so => initActivity\src\main\jniLibs\x86\libstlport_shared.so
+* libs\x86\libvao.0.so => initActivity\src\main\jniLibs\x86\libvao.0.so
+* libs\x86\libvplayer.so => initActivity\src\main\jniLibs\x86\libvplayer.so
+* libs\x86\libvscanner.so => initActivity\src\main\jniLibs\x86\libvscanner.so
+* libs\x86\libvvo.0.so => initActivity\src\main\jniLibs\x86\libvvo.0.so
+* libs\x86\libvvo.9.so => initActivity\src\main\jniLibs\x86\libvvo.9.so
+* libs\x86\libvvo.j.so => initActivity\src\main\jniLibs\x86\libvvo.j.so
+* res\ => initActivity\src\main\res\
+* src\ => initActivity\src\main\java\
+* src\io\vov\vitamio\MediaPlayer.java-chg => initActivity\src\main\resources\io\vov\vitamio\MediaPlayer.java-chg
+In PubUtils:
+* AndroidManifest.xml => pubUtils\src\main\AndroidManifest.xml
+* libs\apache-mime4j-0.6.1.jar => pubUtils\libs\apache-mime4j-0.6.1.jar
+* libs\commons-io-2.2.jar => pubUtils\libs\commons-io-2.2.jar
+* libs\linkage-gson-1.6.jar => pubUtils\libs\linkage-gson-1.6.jar
+* libs\org.apache.http.entity.mime.jar => pubUtils\libs\org.apache.http.entity.mime.jar
+* libs\pinyin4j-2.5.0.jar => pubUtils\libs\pinyin4j-2.5.0.jar
+* res\ => pubUtils\src\main\java\
+* src\ => pubUtils\src\main\java\
+In pulltorefreshLib:
+* AndroidManifest.xml => pulltorefreshLib\src\main\AndroidManifest.xml
+* assets\ => pulltorefreshLib\src\main\assets
+* res\ => pulltorefreshLib\src\main\res\
+* src\ => pulltorefreshLib\src\main\java\
+In Vsichu:
+* AndroidManifest.xml => vsichu\src\main\AndroidManifest.xml
+* assets\ => vsichu\src\main\assets\
+* libs\alipaySdk-20170922.jar => vsichu\libs\alipaySdk-20170922.jar
+* libs\arm64-v8a\libBaiduMapSDK_base_v4_0_0.so => vsichu\src\main\jniLibs\arm64-v8a\libBaiduMapSDK_base_v4_0_0.so
+* libs\arm64-v8a\libBaiduMapSDK_map_v4_0_0.so => vsichu\src\main\jniLibs\arm64-v8a\libBaiduMapSDK_map_v4_0_0.so
+* libs\arm64-v8a\liblocSDK7.so => vsichu\src\main\jniLibs\arm64-v8a\liblocSDK7.so
+* libs\armeabi-v7a\libBaiduMapSDK_base_v4_0_0.so => vsichu\src\main\jniLibs\armeabi-v7a\libBaiduMapSDK_base_v4_0_0.so
+* libs\armeabi-v7a\libBaiduMapSDK_map_v4_0_0.so => vsichu\src\main\jniLibs\armeabi-v7a\libBaiduMapSDK_map_v4_0_0.so
+* libs\armeabi-v7a\liblocSDK7.so => vsichu\src\main\jniLibs\armeabi-v7a\liblocSDK7.so
+* libs\armeabi\libBaiduMapSDK_base_v4_0_0.so => vsichu\src\main\jniLibs\armeabi\libBaiduMapSDK_base_v4_0_0.so
+* libs\armeabi\libBaiduMapSDK_map_v4_0_0.so => vsichu\src\main\jniLibs\armeabi\libBaiduMapSDK_map_v4_0_0.so
+* libs\armeabi\liblocSDK7.so => vsichu\src\main\jniLibs\armeabi\liblocSDK7.so
+* libs\BaiduLBS_Android.jar => vsichu\libs\BaiduLBS_Android.jar
+* libs\emoji-java-3.2.0.jar => vsichu\libs\emoji-java-3.2.0.jar
+* libs\libammsdk.jar => vsichu\libs\libammsdk.jar
+* libs\liteavsdk.jar => vsichu\libs\liteavsdk.jar
+* libs\ormlite-android-4.48.jar => vsichu\libs\ormlite-android-4.48.jar
+* libs\ormlite-core-4.48.jar => vsichu\libs\ormlite-core-4.48.jar
+* libs\ShareSDK-Core-2.7.7.jar => vsichu\libs\ShareSDK-Core-2.7.7.jar
+* libs\ShareSDK-QQ-2.7.7.jar => vsichu\libs\ShareSDK-QQ-2.7.7.jar
+* libs\ShareSDK-Wechat-2.7.7.jar => vsichu\libs\ShareSDK-Wechat-2.7.7.jar
+* libs\ShareSDK-Wechat-Core-2.7.7.jar => vsichu\libs\ShareSDK-Wechat-Core-2.7.7.jar
+* libs\ShareSDK-Wechat-Favorite-2.7.7.jar => vsichu\libs\ShareSDK-Wechat-Favorite-2.7.7.jar
+* libs\ShareSDK-Wechat-Moments-2.7.7.jar => vsichu\libs\ShareSDK-Wechat-Moments-2.7.7.jar
+* libs\universal-image-loader-1.9.3.jar => vsichu\libs\universal-image-loader-1.9.3.jar
+* libs\x86\libBaiduMapSDK_base_v4_0_0.so => vsichu\src\main\jniLibs\x86\libBaiduMapSDK_base_v4_0_0.so
+* libs\x86\libBaiduMapSDK_map_v4_0_0.so => vsichu\src\main\jniLibs\x86\libBaiduMapSDK_map_v4_0_0.so
+* libs\x86\liblocSDK7.so => vsichu\src\main\jniLibs\x86\liblocSDK7.so
+* libs\x86_64\libBaiduMapSDK_base_v4_0_0.so => vsichu\src\main\jniLibs\x86_64\libBaiduMapSDK_base_v4_0_0.so
+* libs\x86_64\libBaiduMapSDK_map_v4_0_0.so => vsichu\src\main\jniLibs\x86_64\libBaiduMapSDK_map_v4_0_0.so
+* libs\x86_64\liblocSDK7.so => vsichu\src\main\jniLibs\x86_64\liblocSDK7.so
+* lint.xml => vsichu\lint.xml
+* res\ => vsichu\src\main\res\
+* src\ => vsichu\src\main\java\
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)

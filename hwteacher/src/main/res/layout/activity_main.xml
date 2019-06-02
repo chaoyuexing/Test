@@ -1,0 +1,99 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <FrameLayout
+        android:id="@+id/content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/radioGroup"></FrameLayout>
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/tab_bg"
+        android:baselineAligned="false"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/tab_home"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tab_bg"
+            android:button="@null"
+            android:drawableTop="@drawable/tabbar_home"
+            android:gravity="center"
+            android:paddingBottom="3dp"
+            android:paddingTop="12dp"
+            android:textColor="@color/gray_normal"
+            android:textSize="10sp" />
+        <!--android:text="@string/tab_home"-->
+
+        <RadioButton
+            android:id="@+id/tab_cookbook"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tab_bg"
+            android:button="@null"
+            android:drawableTop="@drawable/tabbar_work"
+            android:gravity="center"
+            android:paddingBottom="3dp"
+            android:paddingTop="12dp"
+            android:textColor="@color/gray_normal"
+            android:textSize="10sp" />
+        <!--android:text="@string/tab_cookbook"-->
+
+        <RadioButton
+            android:id="@+id/tab_order"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tab_bg"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_order"
+            android:gravity="center"
+            android:paddingBottom="3dp"
+            android:paddingTop="12dp"
+            android:text="@string/tab_order"
+            android:textColor="@color/gray_normal"
+            android:textSize="10sp"
+            android:visibility="gone" />
+
+        <RadioButton
+            android:id="@+id/tab_live"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tab_bg"
+            android:button="@null"
+            android:drawableTop="@drawable/tab_live"
+            android:gravity="center"
+            android:paddingBottom="3dp"
+            android:paddingTop="12dp"
+            android:text="@string/tab_live"
+            android:textColor="@color/gray_normal"
+            android:textSize="10sp"
+            android:visibility="gone" />
+
+        <RadioButton
+            android:id="@+id/tab_mine"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/tab_bg"
+            android:button="@null"
+            android:drawableTop="@drawable/tabbar_user"
+            android:gravity="center"
+            android:paddingBottom="3dp"
+            android:paddingTop="12dp"
+            android:textColor="@color/gray_normal"
+            android:textSize="10sp" />
+        <!--android:text="@string/tab_mine"-->
+    </RadioGroup>
+
+</RelativeLayout>

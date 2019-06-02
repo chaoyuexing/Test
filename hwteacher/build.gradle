@@ -1,0 +1,82 @@
+apply plugin: 'com.android.application'
+
+android {
+
+    compileSdkVersion 22
+    buildToolsVersion '28.0.3'
+    defaultConfig {
+        applicationId "com.homework.teacher"
+        minSdkVersion 14
+        targetSdkVersion 23
+        compileOptions {
+            sourceCompatibility JavaVersion.VERSION_1_7
+            targetCompatibility JavaVersion.VERSION_1_7
+        }
+    }
+
+    signingConfigs {
+        release {
+            keyAlias 'vsichu'
+            keyPassword 'vsichu'
+            storeFile file('./keystore/vsichu.keystore')
+            storePassword '123456'
+        }
+        debug {
+            keyAlias 'vsichu'
+            keyPassword 'vsichu'
+            storeFile file('./keystore/vsichu.keystore')
+            storePassword '123456'
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            signingConfig signingConfigs.debug
+        }
+    }
+
+    android {
+        lintOptions {
+            checkReleaseBuilds false
+        }
+    }
+}
+
+repositories {
+    flatDir {
+        dirs 'libs'
+    }
+}
+
+dependencies {
+    implementation project(':pulltorefreshLib')
+    implementation project(':pubUtils')
+    implementation 'com.android.support:support-v4:22.2.1'
+    implementation 'com.android.support:appcompat-v7:22.2.1'
+    implementation 'com.android.support:recyclerview-v7:23.4.0'
+    implementation 'com.android.support:design:22.2.1'
+//    implementation 'com.zhy:base-rvadapter:3.0.3'
+    implementation files('libs/alipaySdk-20170922.jar')
+    implementation files('libs/BaiduLBS_Android.jar')
+    implementation files('libs/emoji-java-3.2.0.jar')
+    implementation files('libs/libammsdk.jar')
+    implementation files('libs/ormlite-android-4.48.jar')
+    implementation files('libs/ormlite-core-4.48.jar')
+    implementation files('libs/ShareSDK-Core-2.7.7.jar')
+    implementation files('libs/ShareSDK-QQ-2.7.7.jar')
+    implementation files('libs/ShareSDK-Wechat-2.7.7.jar')
+    implementation files('libs/ShareSDK-Wechat-Core-2.7.7.jar')
+    implementation files('libs/ShareSDK-Wechat-Favorite-2.7.7.jar')
+    implementation files('libs/ShareSDK-Wechat-Moments-2.7.7.jar')
+    implementation files('libs/universal-image-loader-1.9.3.jar')
+    implementation(name: 'WangYiLive-release', ext: 'aar')
+    implementation 'com.jakewharton:butterknife:8.4.0'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
+    implementation files('libs/gson-2.8.5.jar')
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
+}

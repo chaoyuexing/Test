@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" tools:ignore="MissingTranslation">
+
+    <string name="app_name">作业教师版</string>
+    <string name="action_settings">Settings</string>
+    <string name="login">登录</string>
+    <string name="setting">设置</string>
+    <string name="exit">退出登录</string>
+    <string name="register">注册</string>
+    <string name="tab_home">备课组</string>
+    <string name="tab_cookbook">作业</string>
+    <!--<string name="tab_home">首页</string>-->
+    <!--<string name="tab_cookbook">一周食谱</string>-->
+    <string name="tab_order">订单</string>
+    <string name="tab_live">后厨直播</string>
+    <string name="tab_mine">我的</string>
+    <string name="phonenumner_cannot_null">手机号码不能为空！</string>
+    <string name="input_correct_phonenumber">请输入正确的手机号码！</string>
+    <string name="input_correct_identitynum">请输入正确的身份证号码！</string>
+    <string name="verifycode_cannot_null">验证码不能为空！</string>
+    <string name="get_verifycode">获取验证码</string>
+    <string name="get_verifycode_already">验证码已发送</string>
+    <string name="get_verifycode_delayed_format">获取验证码(%s)秒</string>
+    <string name="verifycode_incorrect">验证码错误，请重新输入</string>
+    <string name="register_reminder">温馨提示：未注册作业教师版账号的手机号，登录将自动注册且代表已经同意《用户服务协议》</string>
+    <string name="register_reminder1">温馨提示：未注册作业教师版账号的手机号，登录将自动注册。</string>
+    <string name="loginname_cannot_null">用户名不能为空！</string>
+    <string name="password_cannot_null">密码不能为空！</string>
+    <string name="set_cannot_null">设置不能为空！</string>
+    <string name="oldpwd_cannot_null">原密码不能为空！</string>
+    <string name="newpwd_cannot_null">新密码不能为空！</string>
+    <string name="compwd_cannot_null">确认密码不能为空！</string>
+    <string name="user_service">用户服务协议</string>
+    <string name="order_helper">订餐帮助</string>
+    <string name="confirm_order">确认订单</string>
+    <string name="order_detail">订单详情</string>
+    <string name="order_comment">订单点评</string>
+    <string name="order_pay">订单结算</string>
+    <string name="confirm_pay">确认支付</string>
+    <string name="select_mealplace">选择取餐点</string>
+    <string name="select_taketime">选择取餐时间</string>
+    <string name="select_voucher">选择代金券</string>
+    <string name="my_voucher">我的代金券</string>
+    <string name="about_voucher">代金券说明</string>
+    <string name="my_integral">我的积分</string>
+    <string name="about_integral">积分说明</string>
+    <string name="integralexcvou">积分兑换代金券</string>
+    <string name="about_vsichu">关于作业教师版</string>
+    <string name="custom_info">基本资料</string>
+    <string name="update_info">修改信息</string>
+    <string name="update_password">修改密码</string>
+    <string name="confirm_update">确认修改</string>
+    <string name="mine_comment">我的点评</string>
+    <string name="lackmeal_register">缺菜登记</string>
+    <string name="suggestion">建议意见</string>
+    <string name="order_help">订单帮助</string>
+    <string name="service_mail">客服邮箱：cs@vsichu.com</string>
+    <string name="service_phone">客服电话：18751862995</string>
+    <string name="service_time">服务时间：8:00-23:00</string>
+    <string name="call_phone">拨打电话</string>
+    <string name="add_to_cookbook">添加到一周食谱</string>
+    <string name="recommend_add_tips">提示：此操作会将推荐食谱与您当前编制的食谱进行整合。添加成功后，您可在“我的食谱”中进一步修订。</string>
+    <string name="batch_order_tips">为了更好的为您提供日常用餐服务，特推出此功能\n\n会根据您当前制定的一周食谱和用餐计划批量生成订单，最长预定周期为36天\n\n下单后，请仔细核对订单哦！</string>
+    <string name="batch_order">批量下单</string>
+    <string name="qq">QQ</string>
+    <string name="weixin">微信</string>
+    <string name="auth_cancel">授权操作已取消</string>
+    <string name="auth_error">授权操作遇到错误，请阅读Logcat输出; \n 如微信登录，需要微信客户端</string>
+    <string name="auth_complete">授权成功，正在跳转登录操作…</string>
+    <string name="location">定位中...</string>
+    <string name="share">分享</string>
+    <string name="list">列表</string>
+    <string name="mealplace">取餐点：</string>
+    <string name="password_reset">重置密码</string>
+    <string name="look_forward">敬请期待</string>
+    <string name="order_list">订单列表</string>
+    <string name="batch_operation">批量操作</string>
+    <string name="orders_null">无订单数据</string>
+    <string name="choose_photo">选择图片</string>
+    <string name="no_chat">当前没有聊天记录\n请点击右上角“发起”开始即时互动</string>
+    <string name="cancel">取消</string>
+    <string name="OK">进入系统</string>
+
+    <!-- WXPayEntryActivity -->
+    <string name="app_tip">提示</string>
+    <string name="pay_result_callback_msg" formatted="false">微信支付结果：%s</string>
+    <string name="voucher_des">\n
+	1.代金券由促销活动赠送或积分兑换获得；\n\n
+	2.代金券不可兑换现金、不找零、不开发票；\n\n
+	3.每个订单只可使用一张代金券；\n\n
+	4.单笔订单金额达到代金券使用限额系统会自动抵扣金额最高的可用代金券；\n\n
+	5.【一周食谱-批量下单专用】代金券仅供一周食谱模块的批量下单功能使用，其他专属代金券同理；\n\n
+	6.关于代金券的获取及使用规则，作业教师版有最终解释权。\n\n</string>
+    <string name="integral_des">\n
+	1.客人对订单点评后可获得积分，积分值为订单金额的整数部分；\n\n
+	2.积分目前仅可用于兑换代金券；\n\n
+	3.关于积分的获取及使用规则，作业教师版有最终解释权。\n\n</string>
+    <string name="vsichu_introduce">\n
+	&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;“作业教师版”即“虚拟私人厨师”，是南京六芒星科技有限公司于2017年创立的餐饮项目，旨在解决大众日常生活用餐问题，提供类似私人厨师一样的服务。通过预订系统和运营支撑系统与线下采购、生产、配送环节的有机整合，大幅提升效率、降低成本；多种食材当日采购，确保新鲜；自建厨房并推出后厨直播功能，严控品质；定时定点集中配送，提升配送效率、降低配送成本；多种菜品自由搭配选购、无起送价、免打包费、免配送费，提升用户体验。\n\n
+	&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;“作业教师版”将始终致力于提供健康美味、价格低廉、安全卫生、方便快捷的餐饮服务，成为您日常用餐的不二之选，成为您的“私人厨师”。</string>
+    <string name="order_helper_des">\n
+	1.作业教师版为餐饮预订模式，请至少提前一天下单哦！~\n\n
+	2.如果您初次尝试我们的服务或是临时性用餐需求，可使用【单个下单】功能。\n\n
+	3.如果您已经认可我们的产品和服务，可通过一周食谱模块进行【批量下单】，以解决您的日常生活用餐烦恼。\n\n
+	4.关于退订\n
+	（1）为提供质优价廉的日常生活用餐服务，我们的菜品均为当餐集中制作，需要充足的烹饪时间，所以订单的退订截止时间为取餐时间前1.5小时；\n
+	（2）为确保食材新鲜，我们的多种食材均为用餐日期当日采购，如果您当日退订我们会承受一定损失，所以用餐日期当日退订的订单仅可退还订单支付金额的90%。\n</string>
+
+    <string name="title">请选择时间</string>
+    <string name="confirm">确定</string>
+    <string name="year">年</string>
+    <string name="month">月</string>
+    <string name="day">日</string>
+    <string name="hour">时</string>
+    <string name="minute">分</string>
+
+    <string name="select_date">选择日期</string>
+    <string name="current_date">当前日期</string>
+    <string name="select_time">选择时间</string>
+    <string name="current_time">当前时间</string>
+
+</resources>

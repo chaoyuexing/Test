@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginBottom="60dp"
+              android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:background="#F5F7F8">
+
+        <TextView
+            android:id="@+id/job_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="互动作业"
+            android:textColor="#9896a0"
+            android:textSize="16sp"
+            tools:ignore="InvalidId"/>
+
+        <ImageView
+            android:id="@+id/job_item_open"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:src="@drawable/add_ic_selected_big"/>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="18dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp">
+
+        <TextView
+            android:id="@+id/add_total_result"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:background="@drawable/job_item"
+            android:drawableLeft="@drawable/work_list_ic_add_circle"
+            android:paddingLeft="16dp"
+            android:paddingTop="6dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="6dp"
+            android:gravity="center_vertical"
+            android:text="添加总答案"
+            android:textColor="#429efd"/>
+
+        <TextView
+            android:id="@+id/add_total_curriculum"
+            android:layout_width="wrap_content"
+            android:layout_height="38dp"
+            android:layout_marginLeft="8dp"
+            android:background="@drawable/job_item"
+            android:gravity="center_vertical"
+            android:drawableLeft="@drawable/work_list_ic_add_circle"
+            android:paddingLeft="16dp"
+            android:paddingTop="6dp"
+            android:paddingRight="16dp"
+            android:paddingBottom="6dp"
+            android:text="添加总微课"
+            android:textColor="#429efd"/>
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/job_item_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:nestedScrollingEnabled="false"/>
+
+    <TextView
+        android:id="@+id/add_que_interact"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="#FFFFFF"
+        android:layout_gravity="center_horizontal"
+        android:drawableLeft="@drawable/add_ic_add2"
+        android:text="添加题号"
+        android:gravity="center_vertical"
+        android:textColor="#429efd"
+        android:textSize="16sp"/>
+</LinearLayout>

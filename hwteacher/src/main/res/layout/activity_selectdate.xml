@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+
+    <LinearLayout
+        android:id="@+id/pop_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/tipsTv"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:background="#E38279"
+            android:gravity="center_vertical"
+            android:paddingLeft="15dp"
+            android:text="提前一天及以上订餐，返利20%。"
+            android:textColor="@color/white"
+            android:textSize="14sp" />
+
+        <!-- 日历时间选择栏 -->
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@color/white"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp" >
+
+            <ImageView
+                android:id="@+id/iv_left"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/arrow_left"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/date_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="2016-11"
+                android:textColor="@color/black"
+                android:textSize="20sp" />
+
+            <ImageView
+                android:id="@+id/iv_right"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/arrow_right" />
+        </RelativeLayout>
+
+        <com.homework.teacher.widget.datepicker.WeekDayView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/white" />
+
+        <com.homework.teacher.widget.datepicker.MonthDateView
+            android:id="@+id/monthDateView"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:background="#F5F4F9" />
+    </LinearLayout>
+
+</RelativeLayout>
