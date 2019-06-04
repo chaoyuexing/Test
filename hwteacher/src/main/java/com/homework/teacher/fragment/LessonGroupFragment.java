@@ -18,6 +18,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Constants;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -200,8 +201,8 @@ public class LessonGroupFragment extends Fragment implements View.OnClickListene
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 groupClassID = list.get(position).getId();
                 gradeSubjectName = list.get(position).getGradeName() + list.get(position).getSubjectName();
-
-                SpUtils.put(getActivity(),"gradeID",groupClassID);
+                SpUtils.put(getActivity(), Constants.SP_KEY_GRADEID,groupClassID);
+                SpUtils.put(getActivity(), Constants.SP_KEY_GRADE_NAME,gradeSubjectName);
                 getTeacherWorkSheet(groupClassID);
                 mChooseSubjectTv.setText(gradeSubjectName + "备课组");
                 chooseSubjectPop.dismiss();

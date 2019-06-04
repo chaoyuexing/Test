@@ -5,4 +5,9 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="picker_view_height">160dp</dimen>
     <dimen name="date_unit_text_size">18sp</dimen>
+    
+    <dimen name="text_big_size">20sp</dimen>
+    <dimen name="text_standard_size">16sp</dimen>
+    <dimen name="text_small_size">14sp</dimen>
+
 </resources>

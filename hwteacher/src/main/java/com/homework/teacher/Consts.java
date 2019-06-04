@@ -112,8 +112,8 @@ public class Consts {
     public static String SERVER_INTERACT_QUE_ADD = SERVER_URL + "/teacher/workSheet/interact/que/add";// 互动作业模块添加题号
     public static String SERVER_INTERACT_QUE = SERVER_URL + "/teacher/workSheet/interact/que/";// 显示或隐藏题号
     public static String SERVER_ADD_ANSWER = SERVER_URL + "/teacher/workSheet/answer/add";// 添加答案
+    public static String SERVER_ANSWER_LIST = SERVER_URL + "/teacher/workSheet/answer/list/";// 查询答案列表
 
-///hw/api/teacher/workSheet/interact/que/{iqID}/{delFlag}
     //---homework---
 
     public static String SERVER_changePassword = SERVER_URL

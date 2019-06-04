@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.Constants;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -69,7 +70,7 @@ public class RestsFragment extends Fragment {
             jsonArray.put(ints[i]);
         }
         try {
-            jsonObject.put("gsID", SpUtils.get(getActivity(), "gradeID", 0));// 备课组ID
+            jsonObject.put("gsID", SpUtils.get(getActivity(),  Constants.SP_KEY_GRADEID, 0));// 备课组ID
             jsonObject.put("typeList", jsonArray);// 1：课本，2：习题册，3：试卷，4：其他
         } catch (JSONException e) {
             e.printStackTrace();

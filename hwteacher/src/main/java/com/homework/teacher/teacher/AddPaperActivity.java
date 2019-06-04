@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
+import com.Constants;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -91,7 +92,7 @@ public class AddPaperActivity extends AppCompatActivity implements View.OnClickL
         }
         JSONObject jsonObject = new JSONObject();
         try { // TeacherLoginDto
-            jsonObject.put("gsID",SpUtils.get(mContext, "gradeID", 0));// 手机号or身份证号
+            jsonObject.put("gsID",SpUtils.get(mContext,  Constants.SP_KEY_GRADEID, 0));// 手机号or身份证号
             jsonObject.put("name", name);
             jsonObject.put("term", term);
         } catch (JSONException e) {
