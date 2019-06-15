@@ -14,4 +14,7 @@
 
     <dimen name="margin_size">18dp</dimen>
 
+
+    <dimen name="live_btn_size">35dp</dimen>
+
 </resources>

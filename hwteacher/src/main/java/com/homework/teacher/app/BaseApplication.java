@@ -4,6 +4,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
 import com.alibaba.sdk.android.oss.ClientConfiguration;
@@ -72,7 +73,8 @@ public class BaseApplication extends Application {
 	public void onCreate() {
 		super.onCreate();
 		mInstance = this;
-		TXLiveBase.getInstance().setLicence(this, ugcLicenceUrl, ugcKey);
+		MultiDex.install(this);
+//		TXLiveBase.getInstance().setLicence(this, ugcLicenceUrl, ugcKey);
 		mHelper = DataHelper.getHelper(getApplicationContext());
 		sp = getSharedPreferences("VSICHU", Context.MODE_PRIVATE);
 		imageLoader = ImageLoader.getInstance();
@@ -119,6 +121,8 @@ public class BaseApplication extends Application {
 				.build();
 		imageLoader.init(config);
 		getOssInstance();
+		TXLiveBase.getInstance().setLicence(mInstance, ugcLicenceUrl, ugcKey);
+
 		// AliVcMediaPlayer.init(getApplicationContext(), Consts.businessId,
 		// new AccessKeyCallback() {
 		// public AccessKey getAccessToken() {

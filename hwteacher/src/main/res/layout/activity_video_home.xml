@@ -1,0 +1,84 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:background="@drawable/home_banner_bg_gradient">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:background="@drawable/home_banner_bg_dec"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/lessongroup_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+
+                <TextView
+                    android:id="@+id/chooseSubjectTv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"
+                    android:text="选择备课组"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_standard_size"/>
+            </android.support.v7.widget.Toolbar>
+
+
+            <TextView
+                android:id="@+id/add_vedio"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/lessongroup_toolbar"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="8dp"
+                android:drawablePadding="8dp"
+                android:drawableTop="@mipmap/vedio_ic_add"
+                android:text="拍摄微课"
+                android:textColor="@color/white"
+                android:textSize="16sp"/>
+
+        </RelativeLayout>
+    </FrameLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/home_no_job"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/homework_ticket"
+            android:text="暂无作业单，快点击上方图标按钮创建吧~"
+            android:textColor="#2f2e33"
+            android:textSize="13sp"
+            android:drawablePadding="20dp"/>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/home_job_list"
+            android:visibility="gone"
+            android:background="#F6f7f9"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+        </android.support.v7.widget.RecyclerView>
+    </LinearLayout>
+</LinearLayout>

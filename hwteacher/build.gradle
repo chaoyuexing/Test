@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
 
-    compileSdkVersion 27
+    compileSdkVersion 28
     buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.homework.teacher"
@@ -19,7 +19,9 @@ android {
             //abiFilters "armeabi", "armeabi-v7a"
             // 如果您使用的是商业版，只能使用 armeabi 架构，即：
         }
+        multiDexEnabled true
     }
+
 
     signingConfigs {
         release {
@@ -47,6 +49,12 @@ android {
         }
     }
 
+    dexOptions {
+        jumboMode true
+        javaMaxHeapSize "4g"
+    }
+
+
     android {
         lintOptions {
             checkReleaseBuilds false
@@ -63,14 +71,11 @@ repositories {
 
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(include: ['*.jar'], dir: 'libs/upload')
     // 导入短视频SDK aar，LiteAVSDK_UGC_x.x.xxxx 请自行修改为最新版本号
     implementation(name: 'LiteAVSDK_UGC_6.3.7089', ext: 'aar')
     implementation project(':pulltorefreshLib')
     implementation project(':pubUtils')
-    implementation 'com.android.support:support-v4:27.1.1'
-    implementation 'com.android.support:appcompat-v7:27.1.1'
-    implementation 'com.android.support:recyclerview-v7:27.1.1'
-    implementation 'com.android.support:design:27.1.1'
     //    implementation 'com.zhy:base-rvadapter:3.0.3'
     implementation files('libs/alipaySdk-20170922.jar')
     implementation files('libs/BaiduLBS_Android.jar')
@@ -90,8 +95,18 @@ dependencies {
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.4.0'
     implementation files('libs/gson-2.8.5.jar')
     implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.30'
-    implementation 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.jph.takephoto:takephoto_library:4.0.3'
-//    implementation files('libs/liteavsdk.jar')
+    //    implementation files('libs/liteavsdk.jar')
     implementation 'com.aliyun.dpa:oss-android-sdk:+'
+    implementation 'pub.devrel:easypermissions:2.0.1'
+    implementation project(':lib_tccommon')
+    implementation project(':lib_tcvideorecord')
+    implementation project(':lib_tcvideoediter')
+    implementation 'com.android.support:multidex:1.0.3'
+    implementation files('libs/upload/bolts-tasks-1.4.0.jar')
+    implementation files('libs/upload/cosxml-5.4.10.jar')
+    implementation files('libs/upload/okhttp-3.8.1.jar')
+    implementation files('libs/upload/okio-1.13.0.jar')
+    implementation files('libs/upload/qcloud-foundation-1.5.1.jar')
+    implementation files('libs/upload/xstream-1.4.7.jar')
 }

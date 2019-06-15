@@ -49,8 +49,8 @@ import butterknife.Unbinder;
  * @author zhangkc
  */
 public class LessonGroupFragment extends Fragment implements View.OnClickListener {
+
     private final static String TAG = "LessonGroupFragment";
-    private final static String TOKEN = "token";
     protected BaseApplication mApp;
     @BindView(R.id.chooseSubjectTv)
     TextView mChooseSubjectTv;
@@ -98,6 +98,7 @@ public class LessonGroupFragment extends Fragment implements View.OnClickListene
         mLessongroupToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
             }
         });
     }
@@ -182,7 +183,7 @@ public class LessonGroupFragment extends Fragment implements View.OnClickListene
     private void showSubject(final List<GradeSubject.GradeSubjectData> list) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.pop_choose_subject, null);        // 将转换的View放置到 新建一个popuwindow对象中
         chooseSubjectPop = new PopupWindow(view, LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        ListView lv_choose_subject = (ListView) view.findViewById(R.id.lv_choose_subject);
+        ListView lv_choose_subject =  view.findViewById(R.id.lv_choose_subject);
         //设置PopupWindow弹出窗体可点击
         chooseSubjectPop.setFocusable(true);
         //设置SelectPicPopupWindow弹出窗体动画效果

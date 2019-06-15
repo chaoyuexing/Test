@@ -1,3 +1,6 @@
 include ':pubUtils'
 include ':pulltorefreshLib'
 include ':hwteacher'
+include ':lib_tcvideorecord'
+include ':lib_tccommon'
+include ':lib_tcvideoediter'

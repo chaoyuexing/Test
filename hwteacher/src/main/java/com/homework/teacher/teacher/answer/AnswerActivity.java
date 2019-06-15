@@ -30,12 +30,12 @@ import com.homework.teacher.app.BaseApplication;
 import com.homework.teacher.data.MediumAnswer;
 import com.homework.teacher.http.WDStringRequest;
 import com.homework.teacher.teacher.Adapter.AnswerAdapter;
+import com.homework.teacher.utils.ImageUtils;
 import com.homework.teacher.utils.OssUploadUtils;
 import com.homework.teacher.utils.SpUtils;
 import com.homework.teacher.utils.StatusUtils;
-import com.homework.teacher.utils.TimeUtils;
+import com.homework.teacher.utils.TimeUtil;
 import com.homework.teacher.utils.Toast;
-import com.homework.teacher.widget.AddAnswerDialog;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.model.InvokeParam;
@@ -44,7 +44,6 @@ import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.permission.InvokeListener;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
-import com.linkage.lib.util.ImageUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -157,7 +156,7 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void addAnswer() {
-        new AddAnswerDialog(this, R.style.Dialog, takePhoto).show();
+//        new AddAnswerDialog(this, R.style.Dialog, takePhoto).show();
     }
 
 
@@ -170,7 +169,7 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
         Uri uri = Uri.parse(compressPath);
 //        try {
             Bitmap bitmap = BitmapFactory.decodeFile(compressPath);
-            businessLicenseFileName = "faceture_" + TimeUtils.getNowTime() + "_wisdomlife.jpg";
+            businessLicenseFileName = "faceture_" + TimeUtil.getNowTime() + "_wisdomlife.jpg";
             businessLicenseBitmapUri = ImageUtils.saveBitmapUri(bitmap, businessLicenseFileName);
             updateFactPhoto();
             mOssUploadUtils.getPhoto("homework-test", "answer", businessLicenseBitmapUri, businessLicenseFileName);

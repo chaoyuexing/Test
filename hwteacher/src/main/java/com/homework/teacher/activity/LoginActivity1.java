@@ -23,7 +23,6 @@ import com.homework.teacher.utils.HmacSHA1Utils;
 import com.homework.teacher.utils.SpUtils;
 import com.homework.teacher.utils.StatusUtils;
 import com.homework.teacher.utils.StringUtils;
-import com.homework.teacher.utils.TimeUtils;
 import com.homework.teacher.widget.XEditText;
 
 import org.json.JSONException;
@@ -55,13 +54,13 @@ public class LoginActivity1 extends Activity {
         mContext = this;
         String time = SpUtils.get(mContext,Constants.SP_KEY_LOGIN_TIME,"").toString();
         if (!time.equals("")) {
-            if (TimeUtils.isValidDate(time)) {
+//            if (TimeUtil.isValidDate(time)) {
                 String data = SpUtils.get(mContext,Constants.SP_KEY_SALT,"").toString();
                 if (!data.equals("")) {
                     account =  SpUtils.get(mContext,Constants.SP_KEY_ACCOUNT,"").toString();
                     passWord =  SpUtils.get(mContext,Constants.SP_KEY_PASS_WORD,"").toString();
                     encryption(data);
-                }
+//                }
             }
         }
         setContentView(R.layout.activity_login2);

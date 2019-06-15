@@ -87,6 +87,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
 
+
     <application
         android:name="com.homework.teacher.app.BaseApplication"
         android:allowBackup="true"
@@ -344,8 +345,12 @@
             <!--</intent-filter>-->
         </activity>
 
-        <activity android:name=".teacher.answer.AddAnswerActivity"/>
+        <!--<activity android:name=".teacher.answer.AddAnswerActivity"/>-->
         <activity android:name=".teacher.answer.AnswerActivity">
+
+        </activity>
+        
+        <activity android:name="com.homework.teacher.teacher.videoCurriculum.VideoHomeActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -358,13 +363,24 @@
             android:process=":remote">
         </service>
 
+        <activity
+            android:name=".teacher.videopreview.TCVideoPreviewActivity"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="com.tencent.liteav.demo.videopreview" />
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="jirtLpAVQoF9M08QphZcaFL6g6fs0pcV"/>
 
-        <meta-data
-            android:name="com.homework.teacher.widget.GlideConfig"
-            android:value="GlideModule" />
+        <!--<meta-data-->
+            <!--android:name="com.homework.teacher.widget.GlideConfig"-->
+            <!--android:value="GlideModule" />-->
 
     </application>
 
