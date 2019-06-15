@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,7 +52,7 @@ public class ChooseClassActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_class);
 
-        ((Button) findViewById(R.id.back)).setOnClickListener(new View.OnClickListener() {
+        ((ImageView) findViewById(R.id.back)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();

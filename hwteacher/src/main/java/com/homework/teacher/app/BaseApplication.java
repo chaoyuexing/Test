@@ -1,19 +1,24 @@
 package com.homework.teacher.app;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 
+import com.alibaba.sdk.android.oss.ClientConfiguration;
+import com.alibaba.sdk.android.oss.OSS;
+import com.alibaba.sdk.android.oss.OSSClient;
+import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
+import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.Volley;
+import com.homework.teacher.R;
+import com.homework.teacher.data.ClassRoom;
+import com.homework.teacher.datasource.DataHelper;
+import com.homework.teacher.utils.NativeImageLoader;
 import com.j256.ormlite.stmt.QueryBuilder;
 import com.nostra13.universalimageloader.cache.disc.impl.UnlimitedDiscCache;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
@@ -27,10 +32,11 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.download.BaseImageDownloader;
 import com.nostra13.universalimageloader.utils.StorageUtils;
-import com.homework.teacher.R;
-import com.homework.teacher.data.ClassRoom;
-import com.homework.teacher.datasource.DataHelper;
-import com.homework.teacher.utils.NativeImageLoader;
+import com.tencent.rtmp.TXLiveBase;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class BaseApplication extends Application {
 
@@ -57,10 +63,16 @@ public class BaseApplication extends Application {
 	private RequestQueue mRequestQueue;
 	private com.android.volley.toolbox.ImageLoader mNetworkImageLoader;
 
+	private static OSS oss = null;
+
+	String ugcLicenceUrl = "http://license.vod2.myqcloud.com/license/v1/79d8cb8f23dc3d6d24d341da8974813a/TXUgcSDK.licence"; //您从控制台申请的 licence url
+	String ugcKey = "2dfaa38eab5118e02cbd08f08b6efd6e";
+
 	@Override
 	public void onCreate() {
 		super.onCreate();
 		mInstance = this;
+		TXLiveBase.getInstance().setLicence(this, ugcLicenceUrl, ugcKey);
 		mHelper = DataHelper.getHelper(getApplicationContext());
 		sp = getSharedPreferences("VSICHU", Context.MODE_PRIVATE);
 		imageLoader = ImageLoader.getInstance();
@@ -106,7 +118,7 @@ public class BaseApplication extends Application {
 				.writeDebugLogs() // Remove for release app
 				.build();
 		imageLoader.init(config);
-
+		getOssInstance();
 		// AliVcMediaPlayer.init(getApplicationContext(), Consts.businessId,
 		// new AccessKeyCallback() {
 		// public AccessKey getAccessToken() {
@@ -115,6 +127,23 @@ public class BaseApplication extends Application {
 		// }
 		// });
 	}
+
+	public static OSS getOssInstance() {
+		if (oss == null) {
+			String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
+			OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider("LTAI9KQTGihkambl", "wl4rJcKckND1PfzFRBaLhHjgQRurX4", "");
+			//该配置类如果不设置，会有默认配置，具体可看该类
+			ClientConfiguration conf = new ClientConfiguration();
+			conf.setConnectionTimeout(15 * 1000); // 连接超时，默认15秒
+			conf.setSocketTimeout(15 * 1000); // socket超时，默认15秒
+			conf.setMaxConcurrentRequest(5); // 最大并发请求数，默认5个
+			conf.setMaxErrorRetry(2); // 失败后最大重试次数，默认2次
+//        OSSLog.disableLog();
+			oss = new OSSClient(mInstance, endpoint, credentialProvider);
+		}
+		return oss;
+	}
+
 
 	public SharedPreferences getSp() {
 		return sp;

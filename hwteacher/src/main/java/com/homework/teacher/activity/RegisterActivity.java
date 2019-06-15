@@ -8,6 +8,7 @@ import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -51,7 +52,7 @@ public class RegisterActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        ((Button) findViewById(R.id.back)).setOnClickListener(new View.OnClickListener() {
+        ((ImageView) findViewById(R.id.back)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
@@ -168,7 +169,7 @@ public class RegisterActivity extends Activity {
                         code = jsonObject.getString("code");
                         if ("0".equals(code)) {
                             Toast.makeText(RegisterActivity.this,
-                                    "注册成功", Toast.LENGTH_SHORT).show();
+                                    "注册成功，请等候管理员审核通过", Toast.LENGTH_SHORT).show();
                             finish();
                             Intent intent = new Intent();
                             intent.setClass(RegisterActivity.this, ChooseClassActivity.class);

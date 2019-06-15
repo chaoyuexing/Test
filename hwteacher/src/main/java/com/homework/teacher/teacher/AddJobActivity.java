@@ -98,7 +98,7 @@ public class AddJobActivity extends Activity implements View.OnClickListener {
 
     private void initToolbar() {
         mTvTitle.setText(gradeSubjectName + "作业");
-        mAddJobToolbar.setNavigationIcon(R.drawable.arrow_left);
+        mAddJobToolbar.setNavigationIcon(R.mipmap.common_ic_back);
         mAddJobToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

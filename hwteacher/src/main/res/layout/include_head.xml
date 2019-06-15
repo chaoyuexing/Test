@@ -5,14 +5,13 @@
     android:layout_height="50dp"
     android:background="@mipmap/banner_img_bg" >
 
-    <Button
+    <ImageView
         android:id="@+id/back"
-        android:layout_width="12dp"
-        android:layout_height="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="15dp"
-        android:background="@drawable/arrow_left" />
+        android:src="@mipmap/common_ic_back" />
 
     <TextView
         android:id="@+id/title"
@@ -32,6 +31,7 @@
         android:layout_marginRight="15dp"
         android:gravity="center_vertical"
         android:text="@string/register"
+        android:visibility="gone"
         android:textColor="@color/gray_normal"
         android:textSize="16sp" />
 

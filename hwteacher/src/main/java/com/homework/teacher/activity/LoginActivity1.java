@@ -1,17 +1,17 @@
 package com.homework.teacher.activity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.Constants;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -20,12 +20,17 @@ import com.homework.teacher.R;
 import com.homework.teacher.app.BaseApplication;
 import com.homework.teacher.http.WDStringRequest;
 import com.homework.teacher.utils.HmacSHA1Utils;
+import com.homework.teacher.utils.SpUtils;
 import com.homework.teacher.utils.StatusUtils;
 import com.homework.teacher.utils.StringUtils;
+import com.homework.teacher.utils.TimeUtils;
 import com.homework.teacher.widget.XEditText;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 /**
  * 登录页面
@@ -35,23 +40,37 @@ import org.json.JSONObject;
 
 public class LoginActivity1 extends Activity {
     private static final String TAG = LoginActivity1.class.getName();
-    private final static String SALT = "salt";
-    private SharedPreferences sp;
+//    private SharedPreferences sp;
     private EditText mAccountEt;
     private XEditText mPasswordEt;
     private Button mLoginBtn;
     private TextView mRegisterTv;
     private String account, passWord;
 
+    private Context mContext;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mContext = this;
+        String time = SpUtils.get(mContext,Constants.SP_KEY_LOGIN_TIME,"").toString();
+        if (!time.equals("")) {
+            if (TimeUtils.isValidDate(time)) {
+                String data = SpUtils.get(mContext,Constants.SP_KEY_SALT,"").toString();
+                if (!data.equals("")) {
+                    account =  SpUtils.get(mContext,Constants.SP_KEY_ACCOUNT,"").toString();
+                    passWord =  SpUtils.get(mContext,Constants.SP_KEY_PASS_WORD,"").toString();
+                    encryption(data);
+                }
+            }
+        }
         setContentView(R.layout.activity_login2);
+        mContext = this;
         initUI();
     }
 
     private void initUI() {
-        sp = BaseApplication.getInstance().getSp();
+//        sp = BaseApplication.getInstance().getSp();
         mAccountEt = ((EditText) findViewById(R.id.accountEt));
         mPasswordEt = ((XEditText) findViewById(R.id.passWordEt));
         mLoginBtn = ((Button) findViewById(R.id.loginBtn));
@@ -114,11 +133,7 @@ public class LoginActivity1 extends Activity {
                                 }
                             }
                             if (data != null) {
-                                sp.edit().putString(SALT, data).commit();
-                                Log.i(TAG, "盐存入本地~~~");
-                                passWord = Base64.encodeToString(
-                                        HmacSHA1Utils.hwGetHmacSHA1(passWord, data), Base64.NO_WRAP);
-                                login();
+                                encryption(data);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -132,6 +147,12 @@ public class LoginActivity1 extends Activity {
             }
         });
         BaseApplication.getInstance().addToRequestQueue(mRequest, TAG);
+    }
+
+    private void encryption(String data) {
+        SpUtils.put(mContext,Constants.SP_KEY_SALT,data);
+        passWord = Base64.encodeToString(HmacSHA1Utils.hwGetHmacSHA1(passWord, data), Base64.NO_WRAP);
+        login();
     }
 
     private void login() {
@@ -163,6 +184,12 @@ public class LoginActivity1 extends Activity {
 //                            intent.setClass(LoginActivity1.this, MainActivity.class);
                             intent.setClass(LoginActivity1.this, ChooseClassActivity.class);
                             startActivity(intent);
+                            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+                            //获取当前时间日期--nowDate
+                            String nowDate = format.format(new Date());
+                            SpUtils.put(mContext,Constants.SP_KEY_LOGIN_TIME,nowDate);
+                            SpUtils.put(mContext,Constants.SP_KEY_ACCOUNT,account);
+                            SpUtils.put(mContext,Constants.SP_KEY_PASS_WORD,passWord);
                         } else {
                             Toast.makeText(LoginActivity1.this,
                                     jsonObject.optString("message"), Toast.LENGTH_SHORT).show();

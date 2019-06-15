@@ -78,6 +78,7 @@ public class SelectTeamGroupActivity extends Activity {
     }
 
     private void initView() {
+        mTitle.setText("选择班组");
         mSubjectList = (List<GradeSubject.GradeSubjectData>) getIntent().getSerializableExtra("mSubjectList");
         mPrepareLessonsAdapter = new prepareLessonsAdapter(R.layout.item_select_tean_group, mSubjectList, PREPARE_LESSONS_TYPE);
         mPrepareLessonsRecyclerView.setLayoutManager(new LinearLayoutManager(this));
