@@ -4,26 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.Constants;
-import com.alibaba.sdk.android.oss.ClientException;
-import com.alibaba.sdk.android.oss.ServiceException;
-import com.alibaba.sdk.android.oss.model.PutObjectRequest;
-import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.homework.teacher.Consts;
 import com.homework.teacher.R;
 import com.homework.teacher.app.BaseApplication;
@@ -31,11 +23,10 @@ import com.homework.teacher.data.MediumAnswer;
 import com.homework.teacher.http.WDStringRequest;
 import com.homework.teacher.teacher.Adapter.AnswerAdapter;
 import com.homework.teacher.utils.ImageUtils;
-import com.homework.teacher.utils.OssUploadUtils;
 import com.homework.teacher.utils.SpUtils;
 import com.homework.teacher.utils.StatusUtils;
-import com.homework.teacher.utils.TimeUtil;
 import com.homework.teacher.utils.Toast;
+import com.homework.teacher.widget.AddAnswerDialog;
 import com.jph.takephoto.app.TakePhoto;
 import com.jph.takephoto.app.TakePhotoImpl;
 import com.jph.takephoto.model.InvokeParam;
@@ -44,6 +35,8 @@ import com.jph.takephoto.model.TResult;
 import com.jph.takephoto.permission.InvokeListener;
 import com.jph.takephoto.permission.PermissionManager;
 import com.jph.takephoto.permission.TakePhotoInvocationHandler;
+import com.tencent.liteav.demo.common.utils.OssUploadUtils;
+import com.tencent.liteav.demo.common.utils.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,6 +70,7 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
     private Context mContext;
     private String businessLicenseFileName, businessLicenseBitmapUri;
     private OssUploadUtils mOssUploadUtils;
+    private int catalogID = 0;
 
 
     @Override
@@ -86,6 +80,7 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_answer);
         ButterKnife.bind(this);
         mContext = this;
+        catalogID = getIntent().getIntExtra("catalogID",0);
         initToolbar();
         mAddAnswer.setOnClickListener(this);
         mGradeName.setText(SpUtils.get(this, Constants.SP_KEY_GRADE_NAME, "").toString());
@@ -97,12 +92,7 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
 
     private void initToolbar() {
         mToolbar.setNavigationIcon(R.mipmap.common_ic_back);
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        mToolbar.setNavigationOnClickListener(v -> finish());
     }
 
     @Override
@@ -118,30 +108,20 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void initData() {
-        String url = Consts.SERVER_ANSWER_LIST;
+        String url = Consts.SERVER_ANSWER_LIST+"catalogID";
         String relative_url = url.replace(Consts.SERVER_IP, "");
         String sign_body = "";
-        WDStringRequest mRequest = new WDStringRequest(Request.Method.GET, url,
-                relative_url, sign_body, false,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        MediumAnswer mediumAnswer = new MediumAnswer().getFromGson(response);
-                        if (mediumAnswer != null) {
-                            if (mediumAnswer.getCode().equals(Consts.REQUEST_SUCCEED)) {
-                                mMediumAnswerList = mediumAnswer.getData();
-                                mAnswerAdapter.setNewData(mMediumAnswerList);
-                            } else {
-                                Toast.showLong(mContext, mediumAnswer.getMessage());
-                            }
+        WDStringRequest mRequest = new WDStringRequest(Request.Method.GET, url, relative_url, sign_body, false, response -> {
+                    MediumAnswer mediumAnswer = new MediumAnswer().getFromGson(response);
+                    if (mediumAnswer != null) {
+                        if (mediumAnswer.getCode().equals(Consts.REQUEST_SUCCEED)) {
+                            mMediumAnswerList = mediumAnswer.getData();
+                            mAnswerAdapter.setNewData(mMediumAnswerList);
+                        } else {
+                            Toast.showLong(mContext, mediumAnswer.getMessage());
                         }
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError arg0) {
-                StatusUtils.handleError(arg0, mContext);
-            }
-        });
+                }, arg0 -> StatusUtils.handleError(arg0, mContext));
         BaseApplication.getInstance().addToRequestQueue(mRequest, TAG);
     }
 
@@ -156,32 +136,18 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void addAnswer() {
-//        new AddAnswerDialog(this, R.style.Dialog, takePhoto).show();
+        new AddAnswerDialog(this, R.style.Dialog, takePhoto).show();
     }
 
 
     @Override
     public void takeSuccess(TResult result) {
-        String compressPath = result.getImage().getOriginalPath();
-        if (compressPath == null) {
-            compressPath = result.getImage().getCompressPath();
-        }
-        Uri uri = Uri.parse(compressPath);
-//        try {
-            Bitmap bitmap = BitmapFactory.decodeFile(compressPath);
-            businessLicenseFileName = "faceture_" + TimeUtil.getNowTime() + "_wisdomlife.jpg";
-            businessLicenseBitmapUri = ImageUtils.saveBitmapUri(bitmap, businessLicenseFileName);
-            updateFactPhoto();
-            mOssUploadUtils.getPhoto("homework-test", "answer", businessLicenseBitmapUri, businessLicenseFileName);
-//        } catch (FileNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        mImageView.setVisibility(View.VISIBLE);
-//        mImageView.setImageURI(uri);
-//        mImageView.setDrawingCacheEnabled(true);
-//        Bitmap bitmap = Bitmap.createBitmap(mImageView.getDrawingCache());
-//        mImageView.setVisibility(View.GONE);
-
+        String compressPath = result.getImage().getOriginalPath() != null ? result.getImage().getOriginalPath() : result.getImage().getCompressPath();
+        Bitmap bitmap = BitmapFactory.decodeFile(compressPath);
+        businessLicenseFileName = "faceture_" + TimeUtil.getNowTime() + "_wisdomlife.jpg";
+        businessLicenseBitmapUri = ImageUtils.saveBitmapUri(bitmap, businessLicenseFileName);
+        updateFactPhoto();
+        mOssUploadUtils.getPhoto("answer", businessLicenseBitmapUri, businessLicenseFileName);
     }
 
     @Override
@@ -225,21 +191,17 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
 
     private void updateFactPhoto() {
         mOssUploadUtils = new OssUploadUtils(new OssUploadUtils.OssBackRequestListener() {
+
             @Override
-            public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
+            public void onProgress(String requestKy, long currentSize, long totalSize) {}
+
+            @Override
+            public void onSuccess(String requestKy, int resultStatusCode) {
 
             }
-
             @Override
-            public void onSuccess(PutObjectRequest request, PutObjectResult result) {
-                if (result.getStatusCode() == 200) {
+            public void onFailure(String request, String clientExcepion, String serviceException) {
 
-                }
-            }
-
-            @Override
-            public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
-                Log.d(TAG, request.toString());
             }
         });
     }

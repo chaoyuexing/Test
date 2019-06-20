@@ -2,31 +2,24 @@ package com.homework.teacher.teacher.Adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.support.v7.app.AlertDialog;
+import android.content.Intent;
 import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.homework.teacher.Consts;
 import com.homework.teacher.R;
 import com.homework.teacher.app.BaseApplication;
 import com.homework.teacher.data.InteractQue;
-import com.homework.teacher.data.MediumAnswer;
 import com.homework.teacher.data.Simple;
 import com.homework.teacher.http.WDStringRequest;
+import com.homework.teacher.teacher.answer.AnswerActivity;
+import com.homework.teacher.teacher.videoCurriculum.VideoHomeActivity;
 import com.homework.teacher.utils.StatusUtils;
-import com.homework.teacher.utils.Toast;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.List;
 
@@ -78,9 +71,14 @@ public class JobItemAdapter extends BaseQuickAdapter<InteractQue.DataBean, BaseV
                         }
                         break;
                     case R.id.answer_tv:
-                        addAnswer(getData().get(position).getId());
+                        Intent intent = new Intent(mContext, AnswerActivity.class);
+                        intent.putExtra("catalogID",getData().get(position).getId());
+                        mContext.startActivity(intent);
                         break;
                     case R.id.curriculum_tv:
+                        Intent tvIntent = new Intent(mContext, VideoHomeActivity.class);
+                        tvIntent.putExtra("catalogID",getData().get(position).getId());
+                        mContext.startActivity(tvIntent);
                         break;
                 }
 
@@ -94,75 +92,26 @@ public class JobItemAdapter extends BaseQuickAdapter<InteractQue.DataBean, BaseV
         String relative_url = url.replace(Consts.SERVER_IP, "");
         String sign_body = "";
         final WDStringRequest mRequest = new WDStringRequest(Request.Method.GET, url,
-                relative_url, sign_body, false,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Simple data = new Simple().getFromGson(response);
-                        if (data != null && data.getCode() == Consts.REQUEST_SUCCEED_CODE) {
-                            checkBox.setChecked(delFlag == 0);
-                        } else {
-                            Log.e(TAG, "onResponse: " + data.message);
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError arg0) {
-                StatusUtils.handleError(arg0, mContext);
+                relative_url, sign_body, false, response -> {
+            Simple data = new Simple().getFromGson(response);
+            if (data != null && data.getCode() == Consts.REQUEST_SUCCEED_CODE) {
+                checkBox.setChecked(delFlag == 0);
+            } else {
+                Log.e(TAG, "onResponse: " + data.message);
             }
-        });
+        }, arg0 -> StatusUtils.handleError(arg0, mContext));
         BaseApplication.getInstance().addToRequestQueue(mRequest, TAG);
     }
 
 
-    private void addAnswer(final int catalogID) {
-        final EditText et = new EditText(this.mContext);
-        new AlertDialog.Builder(this.mContext).setTitle("请输入答案名称")
-                .setIcon(android.R.drawable.sym_def_app_icon)
-                .setView(et)
-                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        addAnswer(catalogID,et.getText().toString(),1);
-                    }
-                }).setNegativeButton("取消", null).show();
-    }
+//    private void addAnswer(final int catalogID) {
+//        final EditText et = new EditText(this.mContext);
+//        new AlertDialog.Builder(this.mContext).setTitle("请输入答案名称")
+//                .setIcon(android.R.drawable.sym_def_app_icon)
+//                .setView(et)
+//                .setPositiveButton("确定", (dialogInterface, i) ->
+//                        addAnswer(catalogID, et.getText().toString(), 1)).setNegativeButton("取消", null).show();
+//    }
 
-    /**
-     *
-     * @param catalogID
-     * @param content
-     * @param type 答案类型，1：文本，2：图片
-     */
-    private void addAnswer(int catalogID,String content,int type) {
-        JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject.put("catalogID", catalogID);
-            jsonObject.put("content", content);
-            jsonObject.put("type", type);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        String url = WDStringRequest.getUrl(Consts.SERVER_ADD_ANSWER, jsonObject);
-        String relative_url = WDStringRequest.getRelativeUrl();
-        String sign_body = WDStringRequest.getSignBody();
-        WDStringRequest mRequest = new WDStringRequest(Request.Method.POST, url, relative_url, sign_body, true, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                MediumAnswer data = new MediumAnswer().getFromGson(response);
-                if (data.getCode() == Consts.REQUEST_SUCCEED) {
-                    Toast.showLong(mContext, "添加成功");
-                }else {
-                    Toast.showLong(mContext, data.getMessage());
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError arg0) {
-                StatusUtils.handleError(arg0, mContext);
-            }
-        });
-        BaseApplication.getInstance().addToRequestQueue(mRequest, TAG);
-    }
 
 }

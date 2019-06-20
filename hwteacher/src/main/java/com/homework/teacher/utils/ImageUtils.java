@@ -67,7 +67,7 @@ public class ImageUtils {
 
     public static String saveBitmapUri(Bitmap bm,String fileName) {
         //新建文件夹用于存放裁剪后的图片
-        String facetureFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator+"zhijieImg/";
+        String facetureFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator+"teacher/";
         try {
             //打开文件输出流
             File file = new File(facetureFilePath);
@@ -91,15 +91,7 @@ public class ImageUtils {
         }
     }
 
-    public static String UUIDFileName(String fileStr) {
-        String facetureFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator+"zhijieImg/";
-        File pngFile =  new File(facetureFilePath,fileStr);
-        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-        String FileName = pngFile.getAbsolutePath();
-        String suffixName = FileName.substring(FileName.lastIndexOf(".") + 1).toLowerCase();
-        String newFileName = uuid + "."+ suffixName;
-        return newFileName;
-    }
+
 
     public static Bitmap readImage(String file, boolean isAssets) {
         //String assetsFile= "photo/s2.png";

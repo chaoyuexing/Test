@@ -10,7 +10,6 @@ import java.lang.reflect.Type;
  */
 public class Simple extends BaseData<Simple> {
 
-
     public int code;
     public String message;
     public String data;
@@ -37,4 +36,6 @@ public class Simple extends BaseData<Simple> {
     public String getData() {
         return data;
     }
+
+
 }

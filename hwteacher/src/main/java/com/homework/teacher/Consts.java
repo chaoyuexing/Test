@@ -114,6 +114,10 @@ public class Consts {
     public static String SERVER_ADD_ANSWER = SERVER_URL + "/teacher/workSheet/answer/add";// 添加答案
     public static String SERVER_ANSWER_LIST = SERVER_URL + "/teacher/workSheet/answer/list/";// 查询答案列表
 
+
+    public static String SERVER_TENCENT_SIGN = SERVER_URL + "/teacher/video/tencent/signature";// 获取腾讯视频签名
+
+
     //---homework---
 
     public static String SERVER_changePassword = SERVER_URL

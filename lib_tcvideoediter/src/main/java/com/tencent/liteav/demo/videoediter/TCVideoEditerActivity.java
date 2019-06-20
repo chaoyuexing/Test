@@ -1,10 +1,8 @@
 package com.tencent.liteav.demo.videoediter;
 
-import android.app.AlertDialog;
 import android.app.KeyguardManager;
 import android.app.Service;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -710,23 +708,23 @@ public class TCVideoEditerActivity extends FragmentActivity implements
             startGenerateVideo();
             return;
         }
+        startGenerateVideo();
 
-        AlertDialog.Builder normalDialog = new AlertDialog.Builder(TCVideoEditerActivity.this, R.style.ConfirmDialogStyle);
-        normalDialog.setMessage("选择生成模式");
-        normalDialog.setCancelable(true);
-        normalDialog.setNegativeButton("生成视频", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                startGenerateVideo();
-            }
-        });
-        normalDialog.setPositiveButton("原视频转换为gif", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                startGenerateGif();
-            }
-        });
-        normalDialog.show();
+//        AlertDialog.Builder normalDialog = new AlertDialog.Builder(TCVideoEditerActivity.this, R.style.ConfirmDialogStyle);
+//        normalDialog.setMessage("选择生成模式");
+//        normalDialog.setCancelable(true);
+//        normalDialog.setNegativeButton("生成视频", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//            }
+//        });
+//        normalDialog.setPositiveButton("原视频转换为gif", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialogInterface, int i) {
+//                startGenerateGif();
+//            }
+//        });
+//        normalDialog.show();
     }
 
     private void startGenerateGif() {

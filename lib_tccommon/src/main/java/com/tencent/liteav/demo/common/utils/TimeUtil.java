@@ -1,7 +1,8 @@
-package com.homework.teacher.utils;
+package com.tencent.liteav.demo.common.utils;
 
 import android.util.Log;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -73,5 +74,31 @@ public class TimeUtil {
     private static String getOutTradeNo(long weekStart) {
         return new SimpleDateFormat("yyyy.MM.dd").format(weekStart).toString();
 
+    }
+
+    /**
+     * 验证字符串时间，是否在7天内
+     * @param str
+     * @return
+     */
+    public static boolean isValidDate(String str) {
+        //时间格式定义
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        //获取当前时间日期--nowDate
+        String nowDate = format.format(new Date());
+        //获取30天前的时间日期--minDate
+        Calendar calc = Calendar.getInstance();
+        calc.add(Calendar.DAY_OF_MONTH, -7);
+        String minDate = format.format(calc.getTime());
+        boolean convertSuccess;
+        try {
+            //设置lenient为false. 否则SimpleDateFormat会比较宽松地验证日期，比如2007/02/29会被接受，并转换成2007/03/01
+            format.setLenient(false);
+            String strDate = format.format(format.parse(str));
+            convertSuccess = nowDate.compareTo(strDate) >= 0 && strDate.compareTo(minDate) >= 0;
+        } catch (ParseException e) {
+            convertSuccess=false;
+        }
+        return convertSuccess;
     }
 }

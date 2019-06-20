@@ -2,6 +2,7 @@ package com.tencent.liteav.demo.common.utils;
 
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 
@@ -23,6 +24,7 @@ import java.security.NoSuchAlgorithmException;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 public class FileUtils {
     private final static int MD5_FILE_BUFFER_LENGHT = 1 * 1024 * 1024; // 1MB
@@ -1141,6 +1143,17 @@ public class FileUtils {
             }
         }
         return configJsonStr;
+    }
+
+
+    public static String UUIDFileName(String fileStr) {
+        String facetureFilePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator+"teacher/";
+        File pngFile =  new File(facetureFilePath,fileStr);
+        String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+        String FileName = pngFile.getAbsolutePath();
+        String suffixName = FileName.substring(FileName.lastIndexOf(".") + 1).toLowerCase();
+        String newFileName = uuid + "."+ suffixName;
+        return newFileName;
     }
 
 }

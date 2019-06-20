@@ -59,6 +59,7 @@
             android:layout_width="@dimen/live_btn_size"
             android:layout_height="@dimen/live_btn_size"
             android:layout_centerInParent="true"
+            android:visibility="gone"
             android:background="@drawable/icon_share"
             android:onClick="onClick"/>
 
@@ -67,7 +68,6 @@
             android:layout_width="@dimen/live_btn_size"
             android:layout_height="@dimen/live_btn_size"
             android:layout_centerInParent="true"
-            android:visibility="gone"
             android:background="@drawable/selector_preview_to_edit"
             android:onClick="onClick"/>
 

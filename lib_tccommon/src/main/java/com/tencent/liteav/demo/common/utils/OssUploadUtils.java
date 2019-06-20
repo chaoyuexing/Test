@@ -1,30 +1,45 @@
-package com.homework.teacher.utils;
+package com.tencent.liteav.demo.common.utils;
 
+import android.content.Context;
 import android.util.Log;
 
+import com.alibaba.sdk.android.oss.ClientConfiguration;
 import com.alibaba.sdk.android.oss.ClientException;
+import com.alibaba.sdk.android.oss.OSS;
+import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.ServiceException;
 import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
 import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
+import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
+import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider;
 import com.alibaba.sdk.android.oss.internal.OSSAsyncTask;
 import com.alibaba.sdk.android.oss.model.OSSRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
 import com.alibaba.sdk.android.oss.model.PutObjectResult;
-import com.homework.teacher.app.BaseApplication;
 
 public class OssUploadUtils {
 
     private static final String TAG = "OssUploadUtils";
+    private static OSS oss = null;
 
-
+    private static final String OSS_BUKET_NAME = "homework-test";
     private OssBackRequestListener ossListener;
 
-    public interface OssBackRequestListener {
-        void onProgress(PutObjectRequest request, long currentSize, long totalSize);
 
-        void onSuccess(PutObjectRequest request, PutObjectResult result);
 
-        void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException);
+    public static void getOssInstance(Context mInstance) {
+        if (oss == null) {
+            String endpoint = "http://oss-cn-hangzhou.aliyuncs.com";
+            OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider("LTAI9KQTGihkambl", "wl4rJcKckND1PfzFRBaLhHjgQRurX4", "");
+            //该配置类如果不设置，会有默认配置，具体可看该类
+            ClientConfiguration conf = new ClientConfiguration();
+            conf.setConnectionTimeout(15 * 1000); // 连接超时，默认15秒
+            conf.setSocketTimeout(15 * 1000); // socket超时，默认15秒
+            conf.setMaxConcurrentRequest(5); // 最大并发请求数，默认5个
+            conf.setMaxErrorRetry(2); // 失败后最大重试次数，默认2次
+//        OSSLog.disableLog();
+            oss = new OSSClient(mInstance, endpoint, credentialProvider);
+        }
     }
 
     public OssUploadUtils(OssBackRequestListener ossListener) {
@@ -32,21 +47,16 @@ public class OssUploadUtils {
     }
 
     /**
-     * @param objectKey 文件在服务器上的路径 头像 avatars，身份证 idcards，房产证 houseids，广告 ads，
-     *                  小区 communitys，银行 banks，企业 companys，问题反馈 feedbacks
-     *                  人脸采集 faces/collect/yyyyMMdd/图片，人脸捕捉 faces/catch/yyyyMMdd/图片
      * @param filePath  文件在本地的路径
      * @param name
      */
-    public void getPhoto(String bucketName, String objectKey, String filePath, String name) {
+    public void getPhoto( String objectKey, String filePath, String name) {
         // 构造上传请求
         Log.d(TAG, "url: " + filePath);
         Log.d(TAG, TimeUtil.getNowTime("yyyyMMdd"));
-        PutObjectRequest put;
-//            put = new PutObjectRequest(bucketName, objectKey + TimeUtil.getNowTime("yyyyMMdd") + "/" + name
-//                    , filePath);
-            put = new PutObjectRequest(bucketName, objectKey, filePath);
-//        }
+        name = FileUtils.UUIDFileName(name);
+        PutObjectRequest put = new PutObjectRequest(OSS_BUKET_NAME, objectKey + "/"+TimeUtil.getNowTime("yyyyMMdd") + "/" + name
+                , filePath);
 
         // 异步上传时可以设置进度回调
         put.setCRC64(OSSRequest.CRC64Config.YES);
@@ -54,14 +64,14 @@ public class OssUploadUtils {
         put.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
             @Override
             public void onProgress(PutObjectRequest request, long currentSize, long totalSize) {
-                ossListener.onProgress(request, currentSize, totalSize);
+                ossListener.onProgress(request.getObjectKey(), currentSize, totalSize);
             }
         });
-        OSSAsyncTask<PutObjectResult> task = BaseApplication.getOssInstance().asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+        OSSAsyncTask<PutObjectResult> task = oss.asyncPutObject(put, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
             @Override
             public void onSuccess(PutObjectRequest request, PutObjectResult result) {
                 request.getObjectKey();
-                ossListener.onSuccess(request, result);
+                ossListener.onSuccess(request.getObjectKey(), result.getStatusCode());
 
             }
 
@@ -89,8 +99,21 @@ public class OssUploadUtils {
                     Log.e(TAG, "HostId" + serviceException.getHostId());
                     Log.e(TAG, "RawMessage" + serviceException.getRawMessage());
                 }
-                ossListener.onFailure(request, clientExcepion, serviceException);
+                ossListener.onFailure(request.getObjectKey(), clientExcepion.getMessage(), serviceException.getMessage());
             }
         });
     }
+
+
+
+    public interface OssBackRequestListener {
+        void onProgress(String requestKy, long currentSize, long totalSize);
+
+        void onSuccess(String  requestKy, int resultStatusCode);
+
+        void onFailure(String request, String clientExcepion, String serviceException);
+    }
+
+
+
 }

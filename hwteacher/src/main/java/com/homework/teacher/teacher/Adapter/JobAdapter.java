@@ -3,12 +3,9 @@ package com.homework.teacher.teacher.Adapter;
 import android.content.Context;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.homework.teacher.Consts;
@@ -70,15 +67,12 @@ public class JobAdapter extends BaseQuickAdapter<Node, BaseViewHolder> {
         recyclerView.setAdapter(JobItemAdapter);
         mJobItemAdapters.add(JobItemAdapter);
         holder.addOnClickListener(R.id.add_que_interact);
-        this.setOnItemChildClickListener(new OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()) {
-                    case R.id.add_que_interact:
-                        datas.get(position).setCurrMaxQueNum(datas.get(position).getCurrMaxQueNum() + 5);
-                        addQue(datas.get(position).getCurrMaxQueNum(), (Integer) datas.get(position).get_id(), position);
-                        break;
-                }
+        this.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.add_que_interact:
+                    datas.get(position).setCurrMaxQueNum(datas.get(position).getCurrMaxQueNum() + 5);
+                    addQue(datas.get(position).getCurrMaxQueNum(), (Integer) datas.get(position).get_id(), position);
+                    break;
             }
         });
     }
@@ -97,23 +91,15 @@ public class JobAdapter extends BaseQuickAdapter<Node, BaseViewHolder> {
         String relative_url = WDStringRequest.getRelativeUrl();
         String sign_body = WDStringRequest.getSignBody();
         WDStringRequest mRequest = new WDStringRequest(Request.Method.POST, url,
-                relative_url, sign_body, true, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                InteractQue data = new InteractQue().getFromGson(response);
-                if (data != null && data.getCode().equals(Consts.REQUEST_SUCCEED)) {
-                    mJobItemAdapters.get(position).setNewData(data.getData());
-                } else {
-                    Toast.makeText(mContext, data.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError arg0) {
-                StatusUtils.handleError(arg0,
-                        mContext);
-            }
-        });
+                relative_url, sign_body, true, response -> {
+                    InteractQue data = new InteractQue().getFromGson(response);
+                    if (data != null && data.getCode().equals(Consts.REQUEST_SUCCEED)) {
+                        mJobItemAdapters.get(position).setNewData(data.getData());
+                    } else {
+                        Toast.makeText(mContext, data.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }, arg0 -> StatusUtils.handleError(arg0,
+                mContext));
         BaseApplication.getInstance().addToRequestQueue(mRequest, TAG);
     }
 

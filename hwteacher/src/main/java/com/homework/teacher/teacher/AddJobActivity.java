@@ -113,25 +113,17 @@ public class AddJobActivity extends Activity implements View.OnClickListener {
         String relative_url = WDStringRequest.getRelativeUrl();
         String sign_body = WDStringRequest.getSignBody();
         WDStringRequest mRequest = new WDStringRequest(Request.Method.POST, url,
-                relative_url, sign_body, true, new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                CreateJob createJob = new CreateJob().getFromGson(response);
-                if (createJob != null && createJob.getCode() == Consts.REQUEST_SUCCEED_CODE) {
-                    CreateJob.CreateJobdata data = createJob.getData();
-                    jobID = data.getId();
-                    initView();
-                } else {
-                    Toast.makeText(mContext, createJob.getMessage(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError arg0) {
-                StatusUtils.handleError(arg0,
-                        mContext);
-            }
-        });
+                relative_url, sign_body, true, response -> {
+                    CreateJob createJob = new CreateJob().getFromGson(response);
+                    if (createJob != null && createJob.getCode() == Consts.REQUEST_SUCCEED_CODE) {
+                        CreateJob.CreateJobdata data = createJob.getData();
+                        jobID = data.getId();
+                        initView();
+                    } else {
+                        Toast.makeText(mContext, createJob.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                }, arg0 -> StatusUtils.handleError(arg0,
+                mContext));
         BaseApplication.getInstance().addToRequestQueue(mRequest, TAG);
     }
 

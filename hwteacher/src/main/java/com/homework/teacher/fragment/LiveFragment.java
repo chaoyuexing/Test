@@ -13,12 +13,11 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.homework.teacher.Consts;
 import com.homework.teacher.R;
 import com.homework.teacher.app.BaseApplication;
 import com.homework.teacher.widget.MyCommonDialog;
-import com.netease.neliveplayer.demo.activity.NEVideoPlayerActivity;
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 /**
  * 后厨直播
@@ -65,7 +64,7 @@ public class LiveFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 final Intent intent = new Intent();
-                intent.setClass(getActivity(), NEVideoPlayerActivity.class);
+//                intent.setClass(getActivity(), NEVideoPlayerActivity.class);
 
                 if (isWifi(getActivity())) {
                     startActivity(intent);

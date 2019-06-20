@@ -26,13 +26,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.homework.teacher.R;
-import com.homework.teacher.teacher.videoupload.TXUGCPublish;
-import com.homework.teacher.teacher.videoupload.TXUGCPublishTypeDef;
+import com.homework.teacher.teacher.videopublish.TCCompressActivity;
 import com.tencent.liteav.demo.common.utils.FileUtils;
 import com.tencent.liteav.demo.common.utils.TCConstants;
 import com.tencent.rtmp.ITXVodPlayListener;
 import com.tencent.rtmp.TXLiveConstants;
-import com.tencent.rtmp.TXLog;
 import com.tencent.rtmp.TXVodPlayConfig;
 import com.tencent.rtmp.TXVodPlayer;
 import com.tencent.rtmp.ui.TXCloudVideoView;
@@ -94,7 +92,7 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
         mIvToEdit = (ImageView) findViewById(R.id.record_to_edit);
         mIvToEdit.setOnClickListener(this);
 
-        mIvPublish = (ImageView) findViewById(R.id.video_publish);
+        mIvPublish = findViewById(R.id.video_publish);
 
         mVideoSource = getIntent().getIntExtra(TCConstants.VIDEO_RECORD_TYPE, TCConstants.VIDEO_RECORD_TYPE_EDIT);
         mVideoPath = getIntent().getStringExtra(TCConstants.VIDEO_RECORD_VIDEPATH);
@@ -138,7 +136,6 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
         });
         mProgressTime = (TextView) findViewById(R.id.progress_time);
 
-        mIvPublish.setVisibility(View.GONE);
 
         if (mVideoSource == TCConstants.VIDEO_RECORD_TYPE_UGC_RECORD) {
             mIvToEdit.setVisibility(View.VISIBLE);
@@ -222,7 +219,7 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
                 }
                 break;
             case R.id.video_publish:
-                publish();
+//                publish();
                 break;
             case R.id.record_to_edit:
                 startEditVideo();
@@ -236,39 +233,74 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
     private void startEditVideo() {
         // 播放器版本没有此activity
         Intent intent = new Intent();
-        intent.setAction("com.tencent.liteav.demo.videopreprocess");
+        intent.setClass(this,TCCompressActivity.class);
+//        intent.setAction("com.tencent.liteav.demo.videopreprocess");
         intent.putExtra(TCConstants.VIDEO_EDITER_PATH, mVideoPath);
-        intent.putExtra(TCConstants.VIDEO_RECORD_COVERPATH, mCoverImagePath);
-        intent.putExtra(TCConstants.VIDEO_RECORD_TYPE, mVideoSource);
-        intent.putExtra(TCConstants.VIDEO_RECORD_RESOLUTION, mVideoResolution);
+//        intent.putExtra(TCConstants.VIDEO_RECORD_COVERPATH, mCoverImagePath);
+//        intent.putExtra(TCConstants.VIDEO_RECORD_TYPE, mVideoSource);
+//        intent.putExtra(TCConstants.VIDEO_RECORD_RESOLUTION, mVideoResolution);
         startActivity(intent);
-        finish();
+//        finish();
     }
 
-    private void publish() {
-        stopPlay(false);
-        TXUGCPublish txugcPublish = new TXUGCPublish(this.getApplicationContext(), "customID");
-        txugcPublish.setListener(new TXUGCPublishTypeDef.ITXVideoPublishListener() {
-            @Override
-            public void onPublishProgress(long uploadBytes, long totalBytes) {
-                TXLog.d(TAG, "onPublishProgress [" + uploadBytes + "/" + totalBytes + "]");
-            }
+//    private void publish() {
+//        stopPlay(false);
+//        TXUGCPublish txugcPublish = new TXUGCPublish(this.getApplicationContext(), "customID");
+//        txugcPublish.setListener(new TXUGCPublishTypeDef.ITXVideoPublishListener() {
+//            @Override
+//            public void onPublishProgress(long uploadBytes, long totalBytes) {
+//                TXLog.d(TAG, "onPublishProgress [" + uploadBytes + "/" + totalBytes + "]");
+//            }
+//
+//            @Override
+//            public void onPublishComplete(TXUGCPublishTypeDef.TXPublishResult result) {
+//                TXLog.d(TAG, "onPublishComplete [" + result.retCode + "/" + (result.retCode == 0 ? result.videoURL : result.descMsg) + "]");
+//
+//            }
+//        });
+//
+//        TXUGCPublishTypeDef.TXPublishParam param = new TXUGCPublishTypeDef.TXPublishParam();
+//        // signature计算规则可参考 https://www.qcloud.com/document/product/266/9221
+//        param.signature = "";
+//        param.videoPath = mVideoPath;
+//        param.coverPath = mCoverImagePath;
+//        txugcPublish.publishVideo(param);
+//        finish();
+//    }
 
-            @Override
-            public void onPublishComplete(TXUGCPublishTypeDef.TXPublishResult result) {
-                TXLog.d(TAG, "onPublishComplete [" + result.retCode + "/" + (result.retCode == 0 ? result.videoURL : result.descMsg) + "]");
+//    private void startEditVideo() {
+//        Intent intent = new Intent();
+//        intent.setAction("com.tencent.liteav.demo.videopreprocess");
+////        Intent intent = new Intent(this, TCVideoPreprocessActivity.class);
+////        fileInfo.setThumbPath(mTXRecordResult.coverPath);
+////
+////        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+////        retriever.setDataSource(mTXRecordResult.videoPath);
+////        String duration = retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_DURATION);
+////        fileInfo.setDuration(Integer.valueOf(duration) );
+//        if (mRecommendQuality == TXRecordCommon.VIDEO_QUALITY_LOW) {
+//            intent.putExtra(TCConstants.VIDEO_RECORD_RESOLUTION, TXRecordCommon.VIDEO_RESOLUTION_360_640);
+//            mBiteRate = 2400;
+//        } else if (mRecommendQuality == TXRecordCommon.VIDEO_QUALITY_MEDIUM) {
+//            intent.putExtra(TCConstants.VIDEO_RECORD_RESOLUTION, TXRecordCommon.VIDEO_RESOLUTION_540_960);
+//            mBiteRate = 6500;
+//        } else if (mRecommendQuality == TXRecordCommon.VIDEO_QUALITY_HIGH) {
+//            intent.putExtra(TCConstants.VIDEO_RECORD_RESOLUTION, TXRecordCommon.VIDEO_RESOLUTION_720_1280);
+//            mBiteRate = 9600;
+//        } else {
+//            intent.putExtra(TCConstants.VIDEO_RECORD_RESOLUTION, mRecordResolution);
+//        }
+//        FileUtils.deleteFile(mTXRecordResult.coverPath);
+//        intent.putExtra(TCConstants.RECORD_CONFIG_BITE_RATE, mBiteRate);
+//        intent.putExtra(TCConstants.VIDEO_RECORD_TYPE, TCConstants.VIDEO_RECORD_TYPE_UGC_RECORD);
+//        intent.putExtra(TCConstants.VIDEO_EDITER_PATH, mTXRecordResult.videoPath);
+//        intent.putExtra(TCConstants.VIDEO_RECORD_COVERPATH, mTXRecordResult.coverPath);
+//        startActivity(intent);
+//
+//        releaseRecord();
+//        finish();
+//    }
 
-            }
-        });
-
-        TXUGCPublishTypeDef.TXPublishParam param = new TXUGCPublishTypeDef.TXPublishParam();
-        // signature计算规则可参考 https://www.qcloud.com/document/product/266/9221
-        param.signature = "";
-        param.videoPath = mVideoPath;
-        param.coverPath = mCoverImagePath;
-        txugcPublish.publishVideo(param);
-        finish();
-    }
 
     private boolean startPlay() {
         mStartPreview.setBackgroundResource(R.drawable.icon_record_pause);

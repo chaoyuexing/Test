@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@color/white"
+              android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/dialog_answer_input"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:drawableTop="@mipmap/answer_ic_input"
+            android:text="输入答案"
+            android:gravity="center"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_small_size"
+            android:drawablePadding="8dp"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:id="@+id/dialog_answer_photo"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="从相册选取"
+            android:textColor="@color/black"
+            android:textSize="@dimen/text_small_size"
+            android:drawablePadding="8dp"
+            android:drawableTop="@mipmap/answer_ic_photo"/>
+
+    </LinearLayout>
+
+    <ImageView
+        android:id="@+id/dialog_answer_cancle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/answer_ic_cancle"
+        android:layout_marginTop="36dp"
+        android:layout_gravity="center"/>
+
+</LinearLayout>

@@ -130,8 +130,6 @@ public class MainActivity extends BaseFragmentActivity implements
 	@SuppressLint("NewApi")
 	private void initUI() {
 		mTab1 = (RadioButton) findViewById(R.id.tab_home);
-//		Drawable drawable = this.getResources().getDrawable(
-//				R.drawable.tab_home_click);
 		Drawable drawable = this.getResources().getDrawable(
 				R.drawable.tabbar_ic_home_selected);
 		mTab1.setCompoundDrawablesRelativeWithIntrinsicBounds(null, drawable,
@@ -160,8 +158,6 @@ public class MainActivity extends BaseFragmentActivity implements
 	@SuppressLint("NewApi")
 	@Override
 	public void onClick(View v) {
-//		Drawable drawable = this.getResources()
-//				.getDrawable(R.drawable.tab_home);
 		Drawable drawable = this.getResources()
 				.getDrawable(R.drawable.tabbar_home);
 		switch (v.getId()) {
