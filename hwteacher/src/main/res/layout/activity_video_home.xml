@@ -23,13 +23,13 @@
 
 
             <android.support.v7.widget.Toolbar
-                android:id="@+id/lessongroup_toolbar"
+                android:id="@+id/video_home_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
 
                 <TextView
-                    android:id="@+id/chooseSubjectTv"
+                    android:id="@+id/video_home_subject_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -45,9 +45,9 @@
                 android:id="@+id/add_vedio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/lessongroup_toolbar"
+                android:layout_below="@id/video_home_toolbar"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="18dp"
                 android:drawablePadding="8dp"
                 android:drawableTop="@mipmap/vedio_ic_add"
                 android:text="拍摄微课"
@@ -69,12 +69,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawableTop="@drawable/homework_ticket"
-            android:text="暂无作业单，快点击上方图标按钮创建吧~"
+            android:text="暂无微课，快点击上方图标按钮创建吧~"
             android:textColor="#2f2e33"
             android:textSize="13sp"
             android:drawablePadding="20dp"/>
         <android.support.v7.widget.RecyclerView
-            android:id="@+id/home_job_list"
+            android:id="@+id/video_home_list"
             android:visibility="gone"
             android:background="#F6f7f9"
             android:layout_width="match_parent"

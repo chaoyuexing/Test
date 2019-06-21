@@ -113,6 +113,10 @@ public class Consts {
     public static String SERVER_INTERACT_QUE = SERVER_URL + "/teacher/workSheet/interact/que/";// 显示或隐藏题号
     public static String SERVER_ADD_ANSWER = SERVER_URL + "/teacher/workSheet/answer/add";// 添加答案
     public static String SERVER_ANSWER_LIST = SERVER_URL + "/teacher/workSheet/answer/list/";// 查询答案列表
+    public static String SERVER_WORK_SHEET = SERVER_URL + "/teacher/workSheet/";
+    public static String SERVER_WORK_ADD_VIDEO_COURSE = SERVER_URL + "/teacher/workSheet/videoCourse/add";//添加微课
+    public static String SERVER_VIDEO_COURSE_LIST = SERVER_URL + "/teacher/workSheet/knowledge/videoCourse/list/";//通过知识点查询微课列表
+    public static String SERVER_MEDIUM_VIDEO_COURSE_LIST = SERVER_URL + "/teacher/workSheet/medium/videoCourse/list/";//查询作业介质目录的微课列表
 
 
     public static String SERVER_TENCENT_SIGN = SERVER_URL + "/teacher/video/tencent/signature";// 获取腾讯视频签名

@@ -47,8 +47,9 @@ import java.util.Locale;
  */
 
 public class TCVideoPreviewActivity extends Activity implements View.OnClickListener, ITXVodPlayListener {
-    public static final String TAG = "TCVideoPreviewActivity";
 
+    public static final String TAG = "TCVideoPreviewActivity";
+    private static final int UPLOAD_VIDEO = 10082;
     private int mVideoSource; // 视频来源
 
     ImageView mStartPreview;
@@ -233,17 +234,30 @@ public class TCVideoPreviewActivity extends Activity implements View.OnClickList
     private void startEditVideo() {
         // 播放器版本没有此activity
         Intent intent = new Intent();
-        intent.setClass(this,TCCompressActivity.class);
+        intent.setClass(this, TCCompressActivity.class);
 //        intent.setAction("com.tencent.liteav.demo.videopreprocess");
         intent.putExtra(TCConstants.VIDEO_EDITER_PATH, mVideoPath);
 //        intent.putExtra(TCConstants.VIDEO_RECORD_COVERPATH, mCoverImagePath);
 //        intent.putExtra(TCConstants.VIDEO_RECORD_TYPE, mVideoSource);
 //        intent.putExtra(TCConstants.VIDEO_RECORD_RESOLUTION, mVideoResolution);
-        startActivity(intent);
-//        finish();
+        startActivityForResult(intent, UPLOAD_VIDEO);
     }
 
-//    private void publish() {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == UPLOAD_VIDEO) {
+            if (resultCode == Activity.RESULT_OK) {
+//                String videoUrl = data.getStringExtra("videoUrl");
+//                Intent intent = new Intent();
+//                intent.putExtra("videoUrl",videoUrl);
+                setResult(Activity.RESULT_OK,data);
+                finish();
+            }
+        }
+    }
+
+    //    private void publish() {
 //        stopPlay(false);
 //        TXUGCPublish txugcPublish = new TXUGCPublish(this.getApplicationContext(), "customID");
 //        txugcPublish.setListener(new TXUGCPublishTypeDef.ITXVideoPublishListener() {

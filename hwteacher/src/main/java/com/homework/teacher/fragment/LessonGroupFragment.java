@@ -20,8 +20,6 @@ import android.widget.Toast;
 
 import com.Constants;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.homework.teacher.Consts;
 import com.homework.teacher.R;
 import com.homework.teacher.adapter.GradeSubjectAdapter;
@@ -66,22 +64,24 @@ public class LessonGroupFragment extends Fragment implements View.OnClickListene
 
     private Unbinder unbinder;
     private PopupWindow chooseSubjectPop;
-    private HomeAdapter mHomeAdapter;
 
     private int groupClassID;
     private String gradeSubjectName;
     private List<GradeSubject.GradeSubjectData> mSubjectList = new ArrayList<>();
+    private List<HomeListJob.HomeListJobData> mHomeListJobData = new ArrayList<>();
     private Context mContext;
+    private GradeSubjectAdapter gradeSubjectAdapter;
+    private HomeAdapter mHomeAdapter;
 
 
     @Override
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.lessongroup_fragment, container, false);
         unbinder = ButterKnife.bind(this, view);
         return view;
@@ -95,10 +95,14 @@ public class LessonGroupFragment extends Fragment implements View.OnClickListene
         mAddHomeWorkLl.setOnClickListener(this);
         mChooseSubjectTv.setOnClickListener(this);
         groupClassID = (int) SpUtils.get(getActivity(), Constants.SP_KEY_GRADEID, 0);
-        gradeSubjectName  = SpUtils.get(getActivity(), Constants.SP_KEY_GRADE_NAME, "").toString();
-        if (gradeSubjectName != null) {
+        gradeSubjectName = SpUtils.get(getActivity(), Constants.SP_KEY_GRADE_NAME, "").toString();
+        if (gradeSubjectName != null && !gradeSubjectName.equals("")) {
             mChooseSubjectTv.setText(gradeSubjectName + "备课组");
         }
+        if (groupClassID != 0) {
+            getTeacherWorkSheet(groupClassID);
+        }
+
     }
 
     private void initToolbar() {
@@ -115,26 +119,15 @@ public class LessonGroupFragment extends Fragment implements View.OnClickListene
         String url = Consts.SERVER_teacherGradeSubject;
         String relative_url = url.replace(Consts.SERVER_IP, "");
         String sign_body = "";
-        WDStringRequest mRequest = new WDStringRequest(Request.Method.GET, url,
-                relative_url, sign_body, false,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        GradeSubject subjectClass = new GradeSubject().getFromGson(response);
-                        if (subjectClass != null && subjectClass.code == Consts.REQUEST_SUCCEED_CODE) {
-                            mSubjectList = subjectClass.data;
-                            showSubject(mSubjectList);
-                        } else {
-                            Toast.makeText(getActivity(), subjectClass.message, Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError arg0) {
-                StatusUtils.handleError(arg0,
-                        getActivity());
+        WDStringRequest mRequest = new WDStringRequest(Request.Method.GET, url, relative_url, sign_body, false, response -> {
+            GradeSubject subjectClass = new GradeSubject().getFromGson(response);
+            if (subjectClass != null && subjectClass.code == Consts.REQUEST_SUCCEED_CODE) {
+                mSubjectList = subjectClass.data;
+                showSubject(mSubjectList);
+            } else {
+                Toast.makeText(getActivity(), subjectClass.message, Toast.LENGTH_SHORT).show();
             }
-        });
+        }, arg0 -> StatusUtils.handleError(arg0, getActivity()));
         BaseApplication.getInstance().addToRequestQueue(mRequest, TAG);
     }
 
@@ -145,8 +138,8 @@ public class LessonGroupFragment extends Fragment implements View.OnClickListene
         WDStringRequest mRequest = new WDStringRequest(Request.Method.GET, url, relative_url, sign_body, false, response -> {
             HomeListJob homeListJob = new HomeListJob().getFromGson(response);
             if (homeListJob != null && homeListJob.getCode() == Consts.REQUEST_SUCCEED_CODE) {
-                List<HomeListJob.HomeListJobData> data = homeListJob.getData();
-                shouHomeJobList(data);
+                mHomeListJobData = homeListJob.getData();
+                shouHomeJobList();
             } else {
                 Toast.makeText(getActivity(), homeListJob.getMessage(), Toast.LENGTH_SHORT).show();
             }
@@ -154,14 +147,20 @@ public class LessonGroupFragment extends Fragment implements View.OnClickListene
         BaseApplication.getInstance().addToRequestQueue(mRequest, TAG);
     }
 
-    private void shouHomeJobList(List<HomeListJob.HomeListJobData> data) {
-        if (data.size() > 0) {
+    /**
+     * 展示首页的作业列表
+     */
+    private void shouHomeJobList() {
+        if (mHomeListJobData != null && mHomeListJobData.size() > 0) {
             mHomeJobList.setVisibility(View.VISIBLE);
             mHomeNoJob.setVisibility(View.GONE);
             mHomeJobList.setLayoutManager(new LinearLayoutManager(getActivity()));
             mHomeJobList.addItemDecoration(new SpaceItemDecoration(60));
-            mHomeAdapter = new HomeAdapter(getActivity(), R.layout.item_hoem_job, data);
+            mHomeAdapter = new HomeAdapter(getActivity(), R.layout.item_hoem_job, mHomeListJobData);
             mHomeJobList.setAdapter(mHomeAdapter);
+            mHomeAdapter.setOnItemClickListener((adapter, view1, position) -> {
+                startAddJobActivity(mHomeListJobData.get(position).getId());
+            });
         } else {
             mHomeJobList.setVisibility(View.GONE);
             mHomeNoJob.setVisibility(View.VISIBLE);
@@ -186,8 +185,7 @@ public class LessonGroupFragment extends Fragment implements View.OnClickListene
         chooseSubjectPop.setBackgroundDrawable(dw);
 
         chooseSubjectPop.showAsDropDown(mChooseSubjectTv);
-
-        final GradeSubjectAdapter gradeSubjectAdapter = new GradeSubjectAdapter(getActivity(), list);
+        gradeSubjectAdapter = new GradeSubjectAdapter(getActivity(), list);
         lv_choose_subject.setAdapter(gradeSubjectAdapter);
         lv_choose_subject.setOnItemClickListener((parent, view1, position, id) -> {
             groupClassID = list.get(position).getId();
@@ -198,12 +196,7 @@ public class LessonGroupFragment extends Fragment implements View.OnClickListene
             mChooseSubjectTv.setText(gradeSubjectName + "备课组");
             chooseSubjectPop.dismiss();
         });
-        chooseSubjectPop.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                chooseSubjectPop.dismiss();
-            }
-        });
+        chooseSubjectPop.setOnDismissListener(() -> chooseSubjectPop.dismiss());
     }
 
     @Override
@@ -216,15 +209,20 @@ public class LessonGroupFragment extends Fragment implements View.OnClickListene
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.addHomeWorkLl:
-                Intent intent = new Intent(getActivity(), AddJobActivity.class);
-                intent.putExtra("gsID", groupClassID);
-                intent.putExtra("gradeSubjectName", gradeSubjectName);
-                intent.putExtra("mSubjectList", (Serializable) mSubjectList);
-                startActivity(intent);
+                startAddJobActivity(AddJobActivity.DEFAULT_JOB_ID);
                 break;
             case R.id.chooseSubjectTv:
                 getTeacherGradeSubject();
                 break;
         }
+    }
+
+    private void startAddJobActivity(int id) {
+        Intent intent = new Intent(getActivity(), AddJobActivity.class);
+        intent.putExtra("gsID", groupClassID);
+        intent.putExtra("gradeSubjectName", gradeSubjectName);
+        intent.putExtra("mSubjectList", (Serializable) mSubjectList);
+        intent.putExtra("jobID",id);
+        startActivity(intent);
     }
 }

@@ -31,10 +31,12 @@ public class AnswerAdapter  extends BaseQuickAdapter<MediumAnswer.DataBean,BaseV
 
     @Override
     protected void convert(BaseViewHolder helper, MediumAnswer.DataBean item) {
+        ImageView imageView =  helper.getView(R.id.image);
         if (item.getType() == IMG_FLAG) {
-            ImageView imageView =  helper.getView(R.id.image);
             imageView.setVisibility(View.VISIBLE);
             Glide.with(mContext).load(item.getContent()).into(imageView);
+        } else {
+            imageView.setVisibility(View.GONE);
         }
         helper.setText(R.id.title, item.getContent());
         helper.setText(R.id.name, item.getCreTeacherName());

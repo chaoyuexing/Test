@@ -32,15 +32,17 @@ public class AddAnswerDialog extends Dialog implements View.OnClickListener {
     private TextView mAnswerInput,mAnswerPhoto;
     private ImageView mAnswerCancle;
     private TakePhoto mTakePhoto;
+    private int catalogID;
 
     public AddAnswerDialog(Context context) {
         super(context);
     }
 
-    public AddAnswerDialog(Context context, int theme, TakePhoto takePhoto) {
+    public AddAnswerDialog(Context context, int theme, TakePhoto takePhoto ,int catalogID) {
         super(context, theme);
         this.mContext = context;
         this.mTakePhoto = takePhoto;
+        this.catalogID = catalogID;
     }
 
 
@@ -49,9 +51,9 @@ public class AddAnswerDialog extends Dialog implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         View view = View.inflate(mContext, R.layout.dialog_add_answer,null);
         setContentView(view);
-        mAnswerInput = (TextView) view.findViewById(R.id.dialog_answer_input);
-        mAnswerPhoto = (TextView) view.findViewById(R.id.dialog_answer_photo);
-        mAnswerCancle = (ImageView) view.findViewById(R.id.dialog_answer_cancle);
+        mAnswerInput = view.findViewById(R.id.dialog_answer_input);
+        mAnswerPhoto = view.findViewById(R.id.dialog_answer_photo);
+        mAnswerCancle = view.findViewById(R.id.dialog_answer_cancle);
         mAnswerInput.setOnClickListener(this);
         mAnswerPhoto.setOnClickListener(this);
         mAnswerCancle.setOnClickListener(this);
@@ -67,7 +69,11 @@ public class AddAnswerDialog extends Dialog implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.dialog_answer_input:
-                mContext.startActivity(new Intent(mContext,AddAnswerActivity.class));
+                Intent intent = new Intent();
+                intent.setClass(mContext,AddAnswerActivity.class);
+                intent.putExtra("catalogID",catalogID);
+                mContext.startActivity(intent);
+                dismiss();
                 break;
             case R.id.dialog_answer_photo:
                 File file = new File(mContext.getExternalCacheDir(), System.currentTimeMillis() + ".png");

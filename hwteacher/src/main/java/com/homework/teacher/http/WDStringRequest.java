@@ -1,13 +1,5 @@
 package com.homework.teacher.http;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -23,16 +15,24 @@ import com.android.volley.Response.Listener;
 import com.android.volley.toolbox.HttpHeaderParser;
 import com.homework.teacher.Consts;
 import com.homework.teacher.app.BaseApplication;
-import com.homework.teacher.utils.Hex;
 import com.homework.teacher.utils.HmacSHA1Utils;
-import com.homework.teacher.utils.MD5Utils;
 import com.homework.teacher.utils.RSAUtils;
-import com.homework.teacher.utils.StatusUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * A canned request for retrieving the response body at a given URL as a String.
  */
 public class WDStringRequest extends Request<String> {
+
+    private static final String TAG = "HttpLogger";
+
     private static final String SET_COOKIE_KEY = "Set-Cookie";
     private static final String COOKIE_KEY = "Cookie";
     private static final String SESSION_COOKIE = "SESSION";
@@ -131,7 +131,7 @@ public class WDStringRequest extends Request<String> {
             JSONObject reponseJsonObject = new JSONObject();// 定义响应JSONObject
             String body = new String(response.data,
                     HttpHeaderParser.parseCharset(response.headers));
-            Log.e("body", body);
+            Log.d(TAG, "body：" + body);
 //            String bodyJson = new String(Base64.decode(body, Base64.NO_WRAP),
 //                    "utf-8");
 //            Log.e("body base64 decode", bodyJson);
@@ -262,19 +262,18 @@ public class WDStringRequest extends Request<String> {
             headers.put("X-Ca-Timestamp", "");// 时间戳
         }
         sign = sign + mSignBody;// bodyStr
-        Log.e("signature before HmacSHA1", sign);
+        Log.d(TAG, "signature before HmacSHA1 :" + sign);
         String signature = "";
         try {
 //			signature = Hex.encodeHexStr(HmacSHA1Utils.getHmacSHA1(sign));
-            signature = Base64.encodeToString(
-                    HmacSHA1Utils.hwGetHmacSHA1(sign, HmacSHA1Utils.APPSecret), Base64.NO_WRAP);
+            signature = Base64.encodeToString(HmacSHA1Utils.hwGetHmacSHA1(sign, HmacSHA1Utils.APPSecret), Base64.NO_WRAP);
         } catch (Exception e) {
             e.printStackTrace();
         }
         headers.put("X-Ca-Signature", signature);// 签名，用于报文防篡改
         headers.put("Content-Type", "application/json");
         addSessionCookie(headers);
-        Log.e("request headers", headers.toString());
+        Log.d(TAG, "request headers：" + headers.toString());
         return headers;
     }
 
@@ -292,7 +291,7 @@ public class WDStringRequest extends Request<String> {
 
         if (jsonObject != null) {
             String jsonString = jsonObject.toString();
-            Log.e("param", jsonString);
+            Log.d(TAG, "param：" + jsonString);
             try {
 //				jsonString = Base64.encodeToString(
 //						jsonString.getBytes("utf-8"), Base64.NO_WRAP);
@@ -303,18 +302,18 @@ public class WDStringRequest extends Request<String> {
                 e.printStackTrace();
             }
 //            request_url = request_url + "?" + jsonString;
-            Log.e("request_url", request_url);
+            Log.d(TAG, "request_url：" + request_url);
         } else {
             sign_body = "Single spark can start a prairie fire.";
-            Log.e("request_url", request_url);
+            Log.d(TAG, "request_url：" + request_url);
         }
-        Log.e("body", sign_body);
+        Log.d(TAG, "body：" + sign_body);
         return request_url;
     }
 
     /**
      * @param request_url 请求地址
-     * @param jsonArray  jsonArray请求体
+     * @param jsonArray   jsonArray请求体
      * @return
      */
     public static String getUrlForArray(String request_url, JSONArray jsonArray) {
@@ -322,7 +321,7 @@ public class WDStringRequest extends Request<String> {
 
         if (jsonArray != null) {
             String jsonString = jsonArray.toString();
-            Log.e("param", jsonString);
+            Log.d(TAG, "param：" + jsonString);
             try {
 //				jsonString = Base64.encodeToString(
 //						jsonString.getBytes("utf-8"), Base64.NO_WRAP);
@@ -333,12 +332,12 @@ public class WDStringRequest extends Request<String> {
                 e.printStackTrace();
             }
 //            request_url = request_url + "?" + jsonString;
-            Log.e("request_url", request_url);
+            Log.d(TAG, "request_url：" + request_url);
         } else {
             sign_body = "Single spark can start a prairie fire.";
-            Log.e("request_url", request_url);
+            Log.d(TAG, "request_url：" + request_url);
         }
-        Log.e("body", sign_body);
+        Log.d(TAG, "body：" + sign_body);
         return request_url;
     }
 
@@ -373,7 +372,7 @@ public class WDStringRequest extends Request<String> {
         }
         if (jsonObject != null) {
             jsonString = jsonObject.toString();
-            Log.e("param", jsonString);
+            Log.d("param", jsonString);
             try {
                 jsonString = Base64
                         .encodeToString(
@@ -381,7 +380,7 @@ public class WDStringRequest extends Request<String> {
                                         jsonString.getBytes("utf-8"),
                                         RSAUtils.PUB_KEY), Base64.NO_WRAP);
                 // NO_WRAP 这个参数意思是略去所有的换行符
-                Log.e("param rsa,base64", jsonString);
+                Log.d("param rsa,base64", jsonString);
             } catch (Exception e) {
                 e.printStackTrace();
             }

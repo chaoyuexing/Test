@@ -67,7 +67,7 @@
 
 
     <Button
-        android:id="@+id/select_team_group"
+        android:id="@+id/add_answer_content"
         android:layout_width="match_parent"
         android:layout_height="@dimen/item_height"
         android:layout_alignParentBottom="true"

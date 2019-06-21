@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
-import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
@@ -29,11 +28,16 @@ import java.util.List;
  */
 public class JobItemAdapter extends BaseQuickAdapter<InteractQue.DataBean, BaseViewHolder> {
 
+
+    private static final int delFlag = 0;  //删除标识位，0：未删除，1：已删除
+
     private Context mContext;
+    private List<InteractQue.DataBean> datas;
 
     public JobItemAdapter(Context context, int layoutId, List<InteractQue.DataBean> datas) {
         super(layoutId, datas);
         this.mContext = context;
+        this.datas = datas;
     }
 
     @SuppressLint("ResourceAsColor")
@@ -58,47 +62,48 @@ public class JobItemAdapter extends BaseQuickAdapter<InteractQue.DataBean, BaseV
         holder.addOnClickListener(R.id.add_and_remove);
         holder.addOnClickListener(R.id.answer_tv);
         holder.addOnClickListener(R.id.curriculum_tv);
-        this.setOnItemChildClickListener(new OnItemChildClickListener() {
-            @Override
-            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                switch (view.getId()) {
-                    case R.id.add_and_remove:
-                        CheckBox checkBox = (CheckBox) view;
-                        if (checkBox.isChecked()) {
-                            hiddenInteract(getData().get(position).getId(), 0, checkBox);
-                        } else {
-                            hiddenInteract(getData().get(position).getId(), 1, checkBox);
-                        }
-                        break;
-                    case R.id.answer_tv:
-                        Intent intent = new Intent(mContext, AnswerActivity.class);
-                        intent.putExtra("catalogID",getData().get(position).getId());
-                        mContext.startActivity(intent);
-                        break;
-                    case R.id.curriculum_tv:
-                        Intent tvIntent = new Intent(mContext, VideoHomeActivity.class);
-                        tvIntent.putExtra("catalogID",getData().get(position).getId());
-                        mContext.startActivity(tvIntent);
-                        break;
-                }
-
+        holder.setChecked(R.id.add_and_remove,problems.getDelFlag() == delFlag);
+        this.setOnItemChildClickListener((adapter, view, position) -> {
+            switch (view.getId()) {
+                case R.id.add_and_remove:
+                    CheckBox checkBox = (CheckBox) view;
+                    if (checkBox.isChecked()) {
+                        hiddenInteract(position, 0, checkBox);
+                    } else {
+                        hiddenInteract(position, 1, checkBox);
+                    }
+                    break;
+                case R.id.answer_tv:
+                    Intent intent = new Intent(mContext, AnswerActivity.class);
+                    intent.putExtra("catalogID", getData().get(position).getQueID());
+                    mContext.startActivity(intent);
+                    break;
+                case R.id.curriculum_tv:
+                    Intent tvIntent = new Intent(mContext, VideoHomeActivity.class);
+                    tvIntent.putExtra("catalogID", getData().get(position).getQueID());
+                    mContext.startActivity(tvIntent);
+                    break;
             }
+
         });
     }
 
 
-    private void hiddenInteract(int iqID, final int delFlag, final CheckBox checkBox) {
-        String url = Consts.SERVER_INTERACT_QUE + iqID + "/" + delFlag;
+    private void hiddenInteract(int position, final int delFlag, final CheckBox checkBox) {
+        String url = Consts.SERVER_INTERACT_QUE + datas.get(position).getId() + "/" + delFlag;
         String relative_url = url.replace(Consts.SERVER_IP, "");
         String sign_body = "";
-        final WDStringRequest mRequest = new WDStringRequest(Request.Method.GET, url,
-                relative_url, sign_body, false, response -> {
+        final WDStringRequest mRequest = new WDStringRequest(Request.Method.GET, url, relative_url, sign_body, false, response -> {
             Simple data = new Simple().getFromGson(response);
-            if (data != null && data.getCode() == Consts.REQUEST_SUCCEED_CODE) {
-                checkBox.setChecked(delFlag == 0);
-            } else {
-                Log.e(TAG, "onResponse: " + data.message);
+            if (data != null) {
+                if (data.getCode() == Consts.REQUEST_SUCCEED_CODE) {
+                    datas.get(position).setDelFlag(delFlag);
+                    checkBox.setChecked(delFlag == 0);
+                } else {
+                    Log.e(TAG, "onResponse: " + data.message);
+                }
             }
+
         }, arg0 -> StatusUtils.handleError(arg0, mContext));
         BaseApplication.getInstance().addToRequestQueue(mRequest, TAG);
     }

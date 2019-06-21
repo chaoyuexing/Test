@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.homework.teacher.R;
 import com.homework.teacher.utils.DensityUtil;
-import com.jph.takephoto.app.TakePhoto;
 import com.tencent.liteav.demo.videorecord.TCVideoRecordActivity;
 
 /**
@@ -29,16 +28,17 @@ public class AddVideoDialog extends Dialog implements View.OnClickListener {
     private TextView mDialogPhotoSelect;
     private ImageView mDialogAnswerCancle;
     private Context mContext;
-    private TakePhoto mTakePhoto;
+    private OnCloseListener listener;
+
 
     public AddVideoDialog(Context context) {
         super(context);
     }
 
-    public AddVideoDialog(Context context, int theme, TakePhoto takePhoto) {
+    public AddVideoDialog(Context context, int theme,OnCloseListener onCloseListener) {
         super(context, theme);
         this.mContext = context;
-        this.mTakePhoto = takePhoto;
+        this.listener = onCloseListener;
     }
 
     @Override
@@ -71,9 +71,19 @@ public class AddVideoDialog extends Dialog implements View.OnClickListener {
             case R.id.dialog_lib_select:
                 break;
             case R.id.dialog_photo_select:
+                if(listener != null){
+                    listener.onClick(this, "SELECT_PHOTO");
+                }
+
                 break;
             case R.id.dialog_answer_cancle:
+                dismiss();
                 break;
         }
+    }
+
+
+    public interface OnCloseListener {
+        void onClick(Dialog dialog, String type);
     }
 }

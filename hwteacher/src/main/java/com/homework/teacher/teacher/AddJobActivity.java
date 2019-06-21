@@ -1,10 +1,13 @@
 package com.homework.teacher.teacher;
 
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -13,23 +16,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.homework.teacher.Consts;
 import com.homework.teacher.R;
 import com.homework.teacher.app.BaseApplication;
 import com.homework.teacher.data.CreateJob;
 import com.homework.teacher.data.GradeSubject;
-import com.homework.teacher.data.JobData;
 import com.homework.teacher.data.Simple;
 import com.homework.teacher.http.WDStringRequest;
 import com.homework.teacher.teacher.Adapter.JobAdapter;
 import com.homework.teacher.utils.StatusUtils;
+import com.homework.teacher.widget.ViewWrapper;
+import com.linkage.lib.util.MoblieUtils;
 import com.multilevel.treelist.Node;
+import com.tencent.liteav.demo.common.utils.ToastUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -50,6 +54,8 @@ public class AddJobActivity extends Activity implements View.OnClickListener {
 
     private static final int DEFAULT_PROBLEMS_NUM = 5;
     private static final int DEFAULT_GS_ID = 0;
+    public static final int DEFAULT_JOB_ID = 0;
+
     private static final String TAG = AddJobActivity.class.getSimpleName();
 
 
@@ -67,17 +73,22 @@ public class AddJobActivity extends Activity implements View.OnClickListener {
     Button mSelectTeamGroup;
     @BindView(R.id.tv_title)
     TextView mTvTitle;
+    @BindView(R.id.NestedScrollView)
+    NestedScrollView mNestedScrollView;
+    @BindView(R.id.linearLayout)
+    LinearLayout mLinearLayout;
 
     private Context mContext;
     private JobAdapter mJobAdapter;
-    private ArrayList<JobData> jobList = new ArrayList<>();
     private int groupClassID;
     private int jobID;
     private String gradeSubjectName;
     private List<GradeSubject.GradeSubjectData> mSubjectList = new ArrayList<>();
     public ArrayList<Node> nodeLinkedList = new ArrayList<>();
+    private boolean isShow = true;
+    private int layoutHeight ;
 
-
+    @SuppressLint("ObjectAnimatorBinding")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,20 +102,37 @@ public class AddJobActivity extends Activity implements View.OnClickListener {
         mJobRecyleView.setLayoutManager(new LinearLayoutManager(this));
         mJobAdapter = new JobAdapter(this, R.layout.item_interaction_job, nodeLinkedList);
         mJobRecyleView.setAdapter(mJobAdapter);
+        mJobRecyleView.setNestedScrollingEnabled(false);
         mSelectTeamGroup.setOnClickListener(this);
         mAddJobIv.setOnClickListener(this);
-        initData(groupClassID);
+        jobID = getIntent().getIntExtra("jobID", DEFAULT_JOB_ID);
+        layoutHeight = MoblieUtils.dp2px(this,60);
+        if (jobID == DEFAULT_JOB_ID) {
+            initData(groupClassID);
+        }
+        ViewWrapper viewWrapper = new ViewWrapper(mLinearLayout);
+        mNestedScrollView.setOnScrollChangeListener((NestedScrollView.OnScrollChangeListener) (view, i, i1, i2, i3) -> {
+            if (i1 - i3 > 0 && isShow) {
+                Log.d(TAG, "下");
+                isShow = false;
+                ObjectAnimator.ofInt(viewWrapper, "height", layoutHeight, 0).setDuration(500).start();
+            } else if (i1 - i3 < 0 && !isShow) {
+                Log.d(TAG, "上");
+                isShow = true;
+                ObjectAnimator.ofInt(viewWrapper, "height", 0, layoutHeight).setDuration(500).start();
+            }
+        });
     }
 
     private void initToolbar() {
         mTvTitle.setText(gradeSubjectName + "作业");
         mAddJobToolbar.setNavigationIcon(R.mipmap.common_ic_back);
-        mAddJobToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
+        mAddJobToolbar.setNavigationOnClickListener(v -> finish());
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     private void initData(int gsID) {
@@ -112,40 +140,31 @@ public class AddJobActivity extends Activity implements View.OnClickListener {
         String url = WDStringRequest.getUrl(Consts.SERVER_workSheetCreate + gsID, jsonObject);
         String relative_url = WDStringRequest.getRelativeUrl();
         String sign_body = WDStringRequest.getSignBody();
-        WDStringRequest mRequest = new WDStringRequest(Request.Method.POST, url,
-                relative_url, sign_body, true, response -> {
-                    CreateJob createJob = new CreateJob().getFromGson(response);
-                    if (createJob != null && createJob.getCode() == Consts.REQUEST_SUCCEED_CODE) {
-                        CreateJob.CreateJobdata data = createJob.getData();
-                        jobID = data.getId();
-                        initView();
-                    } else {
-                        Toast.makeText(mContext, createJob.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                }, arg0 -> StatusUtils.handleError(arg0,
-                mContext));
+        WDStringRequest mRequest = new WDStringRequest(Request.Method.POST, url, relative_url, sign_body, true, response -> {
+            CreateJob createJob = new CreateJob().getFromGson(response);
+            if (createJob != null) {
+                if (createJob.getCode() == Consts.REQUEST_SUCCEED_CODE) {
+                    jobID = createJob.getData().getId();
+                    initView();
+                } else {
+                    Toast.makeText(mContext, createJob.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        }, arg0 -> StatusUtils.handleError(arg0, mContext));
         BaseApplication.getInstance().addToRequestQueue(mRequest, TAG);
     }
 
     private void initView() {
-
-
-        mSelfStudyJobEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    Log.d(TAG, "onFocusChange: mSelfStudyJobEt" + "失去焦点");
-                    saveJob();
-                }
+        mSelfStudyJobEt.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                Log.d(TAG, "onFocusChange: mSelfStudyJobEt" + "失去焦点");
+                saveJob();
             }
         });
-        mJobNameEt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    Log.d(TAG, "onFocusChange: mJobNameEt" + "失去焦点");
-                    saveJob();
-                }
+        mJobNameEt.setOnFocusChangeListener((v, hasFocus) -> {
+            if (!hasFocus) {
+                Log.d(TAG, "onFocusChange: mJobNameEt" + "失去焦点");
+                saveJob();
             }
         });
     }
@@ -165,23 +184,16 @@ public class AddJobActivity extends Activity implements View.OnClickListener {
         String url = WDStringRequest.getUrl(Consts.SERVER_save, jsonObject);
         String relative_url = WDStringRequest.getRelativeUrl();
         String sign_body = WDStringRequest.getSignBody();
-        WDStringRequest mRequest = new WDStringRequest(Request.Method.PUT, url,
-                relative_url, sign_body, false,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Simple simple = new Simple().getFromGson(response);
-                        if (simple != null && simple.getCode() == Consts.REQUEST_SUCCEED_CODE) {
-                        } else {
-                            Toast.makeText(mContext, simple.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError arg0) {
-                StatusUtils.handleError(arg0, mContext);
+        WDStringRequest mRequest = new WDStringRequest(Request.Method.PUT, url, relative_url, sign_body, false, response -> {
+            Simple simple = new Simple().getFromGson(response);
+            if (simple != null) {
+                if (simple.getCode() == Consts.REQUEST_SUCCEED_CODE) {
+                    ToastUtils.showToast(mContext, "保存成功");
+                } else {
+                    Toast.makeText(mContext, simple.getMessage(), Toast.LENGTH_SHORT).show();
+                }
             }
-        });
+        }, arg0 -> StatusUtils.handleError(arg0, mContext));
         BaseApplication.getInstance().addToRequestQueue(mRequest, TAG);
     }
 
@@ -205,71 +217,26 @@ public class AddJobActivity extends Activity implements View.OnClickListener {
         }
     }
 
-//    private void addJob() {
-//        final EditText et = new EditText(this);
-//        new AlertDialog.Builder(this).setTitle("请输入互动作业名称")
-//                .setIcon(android.R.drawable.sym_def_app_icon)
-//                .setView(et)
-//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialogInterface, int i) {
-//                        JobData data = new JobData();
-//                        data.setJobName(et.getText().toString());
-//                        List<JobData.Problems> problemsList = new ArrayList<>();
-//                        ArrayList<String> answer = new ArrayList<>();
-//                        answer.add("1");
-//                        ArrayList<String> video = new ArrayList<>();
-//                        video.add("1");
-//                        for (int j = 0; j < DEFAULT_PROBLEMS_NUM; j++) {
-//                            JobData.Problems problems = new JobData.Problems();
-//                            problems.setAnswer(answer);
-//                            problems.setVideo(video);
-//                            problemsList.add(problems);
-//                        }
-//                        data.setProblemsArrayList(problemsList);
-//                        jobList.add(data);
-//                        mJobAdapter.notifyDataSetChanged();
-//                    }
-//                }).setNegativeButton("取消", null).show();
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == Activity.RESULT_OK) {
-            mJobAdapter.setModuleID(data.getIntExtra("moduleID",0));
+            mJobAdapter.setModuleID(data.getIntExtra("moduleID", 0));
             mJobAdapter.setTitle(data.getStringExtra("title"));
+            nodeLinkedList.clear();
             notifyListData((ArrayList<Node>) data.getSerializableExtra("list"));
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
 
-//    private void getPaperList(int id) {
-//        String url = Consts.SERVER_MEDIUM_CATALOG + id;
-//        String relative_url = url.replace(Consts.SERVER_IP, "");
-//        String sign_body = "";
-//        WDStringRequest mRequest = new WDStringRequest(Request.Method.GET, url,
-//                relative_url, sign_body, false,
-//                new Response.Listener<String>() {
-//                    @Override
-//                    public void onResponse(String response) {
-//                        MediumCatalog mediumCatalog = new MediumCatalog().getFromGson(response);
-//                        if (mediumCatalog != null && mediumCatalog.getCode().equals(Consts.REQUEST_SUCCEED)) {
-//                        } else {
-//                        }
-//                    }
-//                }, new Response.ErrorListener() {
-//            @Override
-//            public void onErrorResponse(VolleyError arg0) {
-//                StatusUtils.handleError(arg0, mContext);
-//            }
-//        });
-//        BaseApplication.getInstance().addToRequestQueue(mRequest, TAG);
-//    }
 
     private void notifyListData(List<Node> dataBeanList) {
         for (int i = 0; i < dataBeanList.size(); i++) {
-            nodeLinkedList.add(dataBeanList.get(i));
-            notifyListData(dataBeanList.get(i).get_childrenList());
+            if (dataBeanList.get(i).get_childrenList() == null || dataBeanList.get(i).get_childrenList().size() == 0) {
+                nodeLinkedList.add(dataBeanList.get(i));
+            } else {
+                notifyListData(dataBeanList.get(i).get_childrenList());
+            }
         }
         mJobAdapter.setNewData(nodeLinkedList);
     }

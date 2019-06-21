@@ -28,7 +28,7 @@ public abstract class BaseData<T> implements Serializable {
         return result;
     }
 
-    public T getFromGson(String str) {
+    public  T getFromGson(String str) {
         T result = null;
         try {
             result = new Gson().fromJson(str, getType());

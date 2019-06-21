@@ -1,5 +1,6 @@
 package com.homework.teacher.teacher.videopublish;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -28,6 +29,8 @@ import com.tencent.ugc.TXVideoInfoReader;
  */
 
 public class TCCompressActivity extends FragmentActivity {
+
+    private static final int UPLOAD_VIDEO = 10082;
     private final String TAG = "TCCompressActivity";
     private TXVideoEditer mTXVideoEditer;
     private LinearLayout llBack;
@@ -130,19 +133,19 @@ public class TCCompressActivity extends FragmentActivity {
         rgVideoResolution.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
-                if(checkedId == rbVideoNotCompress.getId()){
+                if (checkedId == rbVideoNotCompress.getId()) {
                     mVideoResolution = -1;
                     mEtCompressBitrate.setText("");
-                }else if(checkedId == rbVideoResolution360p.getId()){
+                } else if (checkedId == rbVideoResolution360p.getId()) {
                     mVideoResolution = TXVideoEditConstants.VIDEO_COMPRESSED_360P;
                     mEtCompressBitrate.setText("2400");
-                }else if(checkedId == rbVideoResolution480p.getId()){
+                } else if (checkedId == rbVideoResolution480p.getId()) {
                     mVideoResolution = TXVideoEditConstants.VIDEO_COMPRESSED_480P;
                     mEtCompressBitrate.setText("2400");
-                }else if(checkedId == rbVideoResolution540p.getId()){
+                } else if (checkedId == rbVideoResolution540p.getId()) {
                     mVideoResolution = TXVideoEditConstants.VIDEO_COMPRESSED_540P;
                     mEtCompressBitrate.setText("6500");
-                }else if(checkedId == rbVideoResolution720p.getId()){
+                } else if (checkedId == rbVideoResolution720p.getId()) {
                     mVideoResolution = TXVideoEditConstants.VIDEO_COMPRESSED_720P;
                     mEtCompressBitrate.setText("9600");
                 }
@@ -167,9 +170,9 @@ public class TCCompressActivity extends FragmentActivity {
     }
 
     private void startCompressVideo() {
-        if(mVideoResolution == -1){
+        if (mVideoResolution == -1) {
             startPublishActivity(mInputPath);
-        }else{
+        } else {
             if (mWorkLoadingProgress == null) {
                 initWorkLoadingProgress();
             }
@@ -178,14 +181,14 @@ public class TCCompressActivity extends FragmentActivity {
             mWorkLoadingProgress.show(getSupportFragmentManager(), "progress_dialog");
 
             String inputBitrateStr = mEtCompressBitrate.getText().toString();
-            if(!TextUtils.isEmpty(inputBitrateStr)){
+            if (!TextUtils.isEmpty(inputBitrateStr)) {
                 mBiteRate = Integer.parseInt(inputBitrateStr);
-                if(mBiteRate == 0){
+                if (mBiteRate == 0) {
                     mBiteRate = 2400;
-                }else if(mBiteRate > 20000){
+                } else if (mBiteRate > 20000) {
                     mBiteRate = 20000;
                 }
-            }else{
+            } else {
                 // 如果没有设置码率，默认设置一个码率
                 mBiteRate = 2400;
             }
@@ -202,8 +205,8 @@ public class TCCompressActivity extends FragmentActivity {
         stopCompressVideo();
     }
 
-    private void stopCompressVideo(){
-        if(!mCompressing){
+    private void stopCompressVideo() {
+        if (!mCompressing) {
             TXCLog.e(TAG, "stopCompressVideo, mCompressing is false, ignore");
             return;
         }
@@ -231,10 +234,25 @@ public class TCCompressActivity extends FragmentActivity {
         mWorkLoadingProgress.setProgress(0);
     }
 
-    private void startPublishActivity(String videoPath){
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == UPLOAD_VIDEO) {
+            if (resultCode == Activity.RESULT_OK) {
+//                String videoUrl = data.getStringExtra("videoUrl");
+//                Intent intent = new Intent();
+//                intent.putExtra("videoUrl",videoUrl);
+                setResult(Activity.RESULT_OK, data);
+                finish();
+            }
+
+        }
+    }
+
+    private void startPublishActivity(String videoPath) {
         Intent intent = new Intent(TCCompressActivity.this, TCVideoPublishActivity.class);
         intent.putExtra(TCConstants.VIDEO_EDITER_PATH, videoPath);
-        startActivity(intent);
+        startActivityForResult(intent, UPLOAD_VIDEO);
     }
 
     @Override

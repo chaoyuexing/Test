@@ -1,5 +1,7 @@
 package com.homework.teacher.teacher.videopublish;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -218,7 +220,11 @@ public class TCVideoPublishActivity extends FragmentActivity implements View.OnC
 
                 // 注意：如果取消发送时，是取消的剩余未上传的分片发送，如果视频比较小，分片已经进入任务队列了是无法取消的。此时不跳转到下一个界面。
                 if (result.retCode == TXUGCPublishTypeDef.PUBLISH_RESULT_OK) {
-                    Toast.makeText(TCVideoPublishActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(TCVideoPublishActivity.this, "发布成功", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent();
+                    intent.putExtra("videoUrl",videoUrl);
+                    setResult(Activity.RESULT_OK,intent);
+                    finish();
 //                    Intent intent = new Intent(TCVideoPublishActivity.this, SuperPlayerActivity.class);
 //                    intent.putExtra(TCConstants.PLAYER_DEFAULT_VIDEO, false);
 //                    intent.putExtra(TCConstants.PLAYER_VIDEO_ID, result.videoId);

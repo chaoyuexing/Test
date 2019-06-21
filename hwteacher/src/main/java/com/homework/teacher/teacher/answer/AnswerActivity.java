@@ -87,7 +87,6 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
         mAnswerList.setLayoutManager(new LinearLayoutManager(this));
         mAnswerAdapter = new AnswerAdapter(R.layout.item_answer, mMediumAnswerList, this);
         mAnswerList.setAdapter(mAnswerAdapter);
-        initData();
     }
 
     private void initToolbar() {
@@ -107,8 +106,14 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
+    }
+
     private void initData() {
-        String url = Consts.SERVER_ANSWER_LIST+"catalogID";
+        String url = Consts.SERVER_ANSWER_LIST+catalogID;
         String relative_url = url.replace(Consts.SERVER_IP, "");
         String sign_body = "";
         WDStringRequest mRequest = new WDStringRequest(Request.Method.GET, url, relative_url, sign_body, false, response -> {
@@ -136,7 +141,7 @@ public class AnswerActivity extends AppCompatActivity implements View.OnClickLis
     }
 
     private void addAnswer() {
-        new AddAnswerDialog(this, R.style.Dialog, takePhoto).show();
+        new AddAnswerDialog(this, R.style.Dialog, takePhoto,catalogID).show();
     }
 
 

@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.Request;
@@ -25,6 +26,7 @@ import com.homework.teacher.teacher.Adapter.prepareLessonsAdapter;
 import com.homework.teacher.utils.StatusUtils;
 import com.homework.teacher.utils.Toast;
 import com.homework.teacher.widget.CustomDatePicker;
+import com.tencent.liteav.demo.common.utils.TimeUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,9 +46,8 @@ public class SelectTeamGroupActivity extends Activity {
     private static final int START_TIME_TYPE = 0;
     private static final int OVER_TIME_TYPE = 1;
 
-
     @BindView(R.id.back)
-    Button mBack;
+    ImageView mBack;
     @BindView(R.id.title)
     TextView mTitle;
     @BindView(R.id.tvSet)
@@ -57,6 +58,7 @@ public class SelectTeamGroupActivity extends Activity {
     RecyclerView mMyClassRecyclerView;
     @BindView(R.id.select_team_group)
     Button mSelectTeamGroup;
+
 
     private List<GradeSubject.GradeSubjectData> mSubjectList = new ArrayList<>();
     private List<GradeSubject.GradeSubjectData> mClasstList = new ArrayList<>();
@@ -133,7 +135,7 @@ public class SelectTeamGroupActivity extends Activity {
 
 
     private void initTimerPicker(final TextView textView, final int po, final int type) {
-        String beginTime = "2018-10-17 18:00";
+        String beginTime = TimeUtil.getNowTime("yyyy-MM-dd hh:mm");
         String endTime = DateFormatUtils.long2Str(System.currentTimeMillis(), true);
 
         textView.setText(endTime);

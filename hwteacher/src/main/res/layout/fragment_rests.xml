@@ -1,41 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+    >
 
-    <EditText
-        android:id="@+id/job_name_et"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="36dp"
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="18dp"
-        android:layout_marginBottom="12dp"
-        android:background="@drawable/add_job_edit_bg"
-        android:hint="请输入习题所在位置"
-        android:layout_marginTop="8dp"
-        android:drawableLeft="@mipmap/work_ic_toolbar_search"
-        android:drawablePadding="8dp"
-        android:paddingLeft="16dp"/>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:text="历史记录"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="18dp"
-        android:layout_marginRight="18dp"
-        android:layout_marginBottom="8dp"/>
+        <EditText
+            android:id="@+id/job_name_et"
+            android:layout_width="match_parent"
+            android:layout_height="36dp"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginBottom="12dp"
+            android:background="@drawable/add_job_edit_bg"
+            android:drawableLeft="@mipmap/work_ic_toolbar_search"
+            android:drawablePadding="8dp"
+            android:hint="请输入习题所在位置"
+            android:paddingLeft="16dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginRight="18dp"
+            android:layout_marginBottom="8dp"
+            android:text="历史记录"/>
 
 
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/paper_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:divider="#aaa"
-        android:dividerHeight="1px"/>
-
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/paper_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:divider="#aaa"
+            android:dividerHeight="1px"/>
+    </LinearLayout>
 
     <Button
         android:id="@+id/confirm"
@@ -52,4 +56,4 @@
         android:textColor="#FFFFFF"
         android:textSize="18sp"/>
 
-</LinearLayout>
+</RelativeLayout>

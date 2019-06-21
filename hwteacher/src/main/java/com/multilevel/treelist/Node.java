@@ -1,6 +1,7 @@
 package com.multilevel.treelist;
 
 import com.homework.teacher.R;
+import com.homework.teacher.data.InteractQue;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -22,6 +23,27 @@ public abstract class Node<T> implements Serializable {
     private boolean isExpand = false;//当前状态是否展开
     public boolean isCheck = false;
     public int currMaxQueNum = 0; // 最大题号
+    private List<InteractQue.DataBean> mDataBeanList;
+
+    public void setExpand(boolean expand) {
+        isExpand = expand;
+    }
+
+    public boolean isCheck() {
+        return isCheck;
+    }
+
+    public void setCheck(boolean check) {
+        isCheck = check;
+    }
+
+    public List<InteractQue.DataBean> getDataBeanList() {
+        return mDataBeanList;
+    }
+
+    public void setDataBeanList(List<InteractQue.DataBean> dataBeanList) {
+        mDataBeanList = dataBeanList;
+    }
 
     public int getCurrMaxQueNum() {
         return currMaxQueNum;

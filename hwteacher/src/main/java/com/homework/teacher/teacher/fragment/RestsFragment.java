@@ -13,8 +13,6 @@ import android.widget.Toast;
 
 import com.Constants;
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.homework.teacher.Consts;
 import com.homework.teacher.R;
 import com.homework.teacher.app.BaseApplication;
@@ -78,24 +76,14 @@ public class RestsFragment extends Fragment {
         String url = WDStringRequest.getUrl(Consts.SERVER_catalog, jsonObject);
         String relative_url = WDStringRequest.getRelativeUrl();
         String sign_body = WDStringRequest.getSignBody();
-        WDStringRequest mRequest = new WDStringRequest(Request.Method.PUT, url,
-                relative_url, sign_body, false,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        MediumCatalog mediumCatalog = new MediumCatalog().getFromGson(response);
-                        if (mediumCatalog != null && mediumCatalog.getCode().equals(Consts.REQUEST_SUCCEED)) {
+        WDStringRequest mRequest = new WDStringRequest(Request.Method.PUT, url, relative_url, sign_body, false, response -> {
+                    MediumCatalog mediumCatalog = new MediumCatalog().getFromGson(response);
+                    if (mediumCatalog != null && mediumCatalog.getCode().equals(Consts.REQUEST_SUCCEED)) {
 //                            addOne(mediumCatalog.getData());
-                        } else {
-                            Toast.makeText(getActivity(), mediumCatalog.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
+                    } else {
+                        Toast.makeText(getActivity(), mediumCatalog.getMessage(), Toast.LENGTH_SHORT).show();
                     }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError arg0) {
-                StatusUtils.handleError(arg0, getActivity());
-            }
-        });
+                }, arg0 -> StatusUtils.handleError(arg0, getActivity()));
         BaseApplication.getInstance().addToRequestQueue(mRequest, TAG);
     }
 
